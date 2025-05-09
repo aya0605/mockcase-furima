@@ -41,6 +41,11 @@
         </div>
       </div>
     </div>
+    <div class="form__error form__error--auth">
+        @error('auth')
+        {{ $message }}
+        @enderror
+    </div>
     <div class="form__button">
       <button class="form__button-submit" type="submit">ログインする</button>
     </div>

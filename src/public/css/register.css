@@ -12,7 +12,7 @@
 .form {
     margin: 0 auto;
     width: 25%;
-    text-align: center;
+    /*text-align: center;*/
 }
 
 .form__group {
@@ -41,6 +41,7 @@
 
 .form__button {
     margin-top: 20px;
+    text-align: center;
 }
 
 .form__button-submit {
@@ -57,4 +58,5 @@
 .login__link {
     margin-top: 20px;
     text-align: center;
+    width: 100%;
 }

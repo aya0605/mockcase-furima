@@ -21,6 +21,15 @@
     font-size: 24px;
 }
 
+.header__logo img {
+    width: 300px;
+    /* 例: 幅を 150px に設定 */
+    height: auto;
+    /* 高さの比率は自動調整 */
+    vertical-align: middle;
+    /* 他の要素との垂直方向の配置 */
+}
+
 .header-utilities nav {
     width: 18%;
 }
