@@ -14,19 +14,19 @@
             @foreach ($items as $item)
             <div class="col">
                 <div class="item-card">
-                    @if ($item->image_url)
-                    <img src="{{ $item->image_url }}" class="card-img-top" alt="{{ $item->name }}">
-                    @else
-                    <img src="{{ asset('images/no_image.png') }}" class="card-img-top" alt="No Image">
-                    @endif
+                    <a href="/items/{{ $item->id }}" class="item-link-wrapper">
+                        @if ($item->image_url)
+                        <img src="{{ asset($item->image_url) }}" class="card-img-top" alt="{{ $item->name }}">
+                        @else
+                        <img src="{{ asset('images/no_image.png') }}" class="card-img-top" alt="No Image">
+                        @endif
+                    </a>    
                     <div class="item-body">
                         <h5 class="item-title">{{ $item->name }}</h5>
                     </div>
                 </div>
             </div>
-            @empty
-            <p>商品はまだありません。</p>
-            @endforelse
+            @endforeach
         </div>
 
         <div class="pagination-links mt-4">

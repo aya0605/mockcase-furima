@@ -8,6 +8,10 @@
     max-width: 1230px;
 }
 
+.header-search-form {
+    display: flex;
+}
+
 .header-utilities {
     display: flex;
     align-items: center;
@@ -23,11 +27,8 @@
 
 .header__logo img {
     width: 300px;
-    /* 例: 幅を 150px に設定 */
     height: auto;
-    /* 高さの比率は自動調整 */
     vertical-align: middle;
-    /* 他の要素との垂直方向の配置 */
 }
 
 .header-utilities nav {
@@ -51,4 +52,25 @@
     color: #fff;
     font-size: 16px;
     cursor: pointer;
+}
+
+.header-nav-list {
+    display: flex;
+    /* ← ここでリストアイテムを横並びにする */
+    align-items: center;
+    /* 必要に応じて垂直方向中央揃え */
+    list-style: none;
+    /* デフォルトのリストの点を取り除く */
+    padding: 0;
+    margin: 0;
+}
+
+.header-nav-item {
+    margin-left: 15px;
+    /* 各リストアイテム間の間隔 */
+    /* display: flex; ← これは必要に応じて、リストアイテム内の要素を横並びにする場合に使用 */
+}
+
+.header-nav-item:first-child {
+    margin-left: 0;
 }

@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\SellController;
 
 
 /*
@@ -18,13 +18,15 @@ use App\Http\Controllers\ItemController;
 
 Route::get('/', [ItemController::class, 'index']); 
 
-Route::get('/register', [AuthController::class, 'showRegistrationForm']); 
-Route::post('/register', [AuthController::class, 'register']); 
-Route::get('/login', [AuthController::class, 'showLoginForm']); 
-Route::post('/login', [AuthController::class, 'login']); 
-Route::post('/logout', [AuthController::class, 'logout']); 
+Route::get('/items/{item}', [ItemController::class, 'show']);
+
+Route::post('/comments/store/{item}', [ItemController::class, 'storeComment'])
+    ->middleware('auth');
+
+Route::post('/items/{item}/like', [ItemController::class,'toggleLike'])
+    ->middleware('auth');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [AuthController::class, 'index']);
-    Route::get('/sell', [SellController::class, 'create']); 
+    Route::get('/sell', [SellController::class, 'create']);
+    Route::post('/sell', [SellController::class, 'store']); 
 });

@@ -16,7 +16,7 @@ class Item extends Model
         'price',
         'condition',
         'seller_id',
-        'category_id',
+        'brand',
     ];
 
     public function seller()
@@ -24,8 +24,18 @@ class Item extends Model
         return $this->belongsTo(User::class, 'seller_id');
     }
 
-    public function category()
+    public function categories()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsToMany(Category::class, 'item_category');
+    }
+
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
     }
 }

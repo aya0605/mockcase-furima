@@ -26,17 +26,14 @@
                     <nav>
                         <ul class="header-nav-list">
                             @if (Auth::check())
-                            <li class="header-nav-item"><a href="/profile">マイページ</a></li>
-                            <li class="header-nav-item"><a href="/sell">出品</a></li>
-                            <li class="header-nav-item">
                                 <form class="form" action="/logout" method="post">
                                     @csrf
                                     <button class="header-nav__button">ログアウト</button>
                                 </form>
-                            </li>
+                                <li class="header-nav-item"><a href="/profile">マイページ</a></li>
+                                <li class="header-nav-item"><a href="/sell" class="add-button">出品</a></li>
                             @else
-                            <li class="header-nav-item"><a href="/login">ログイン</a></li>
-                            <li class="header-nav-item"><a href="/register">会員登録</a></li>
+                                <li class="header-nav-item"><a href="/login">ログイン</a></li>
                             @endif
                         </ul>
                     </nav>
