@@ -1,76 +1,137 @@
 .header {
-    background: #000;
+    background-color: #000;
+    /* ヘッダーの背景色を黒に明確に指定 */
+    color: #fff;
+    /* ヘッダー内の文字色を白に指定 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .header__inner {
     margin: 0 auto;
-    padding: 20px 15px;
+    padding: 15px 15px;
     max-width: 1230px;
-}
-
-.header-search-form {
-    display: flex;
 }
 
 .header-utilities {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 20px;
+    flex-wrap: nowrap;
 }
 
-.header__logo {
-    color: #fff;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 24px;
-}
-
+/* ロゴのスタイル */
 .header__logo img {
-    width: 300px;
+    width: 250px;
     height: auto;
     vertical-align: middle;
+    flex-shrink: 0;
 }
 
-.header-utilities nav {
-    width: 18%;
-}
-
-.header-nav {
+/* 検索フォームのスタイル */
+.header-search-form {
     display: flex;
+    flex-grow: 1;
+    /* 利用可能なスペースを占めるようにする */
+    margin-right: 20px;
+    /* ナビゲーションとの間にスペース */
+    max-width: 450px;
+    /* 検索フォームの最大幅 */
+    flex-shrink: 1;
+}
+
+.header-search-input {
+    flex-grow: 1;
+    padding: 8px 10px;
+    border: 1px solid #555;
+    border-radius: 4px;
+    background-color: white;
+    color: black;
+    font-size: 14px;
+}
+
+.header-search-input::placeholder {
+    color: black;
+}
+    
+
+.header-search-input:focus {
+    outline: none;
+    border-color: #aaa;
+    /* フォーカス時の枠線色 */
+}
+
+/* ナビゲーション全体のスタイル */
+.header-utilities nav {
+    flex-shrink: 0;
+    min-width: fit-content;
+}
+
+.header-nav-list {
+    display: flex;
+    /* リストアイテムを横並びにする */
     align-items: center;
-    justify-content: space-between;
+    /* 垂直方向中央揃え */
+    list-style: none;
+    /* デフォルトのリストマーカーを削除 */
+    padding: 0;
+    margin: 0;
+    justify-content: flex-end;
+    /* ナビゲーションアイテムを右端に寄せる */
+    flex-wrap: nowrap;
 }
 
-.header-nav__link {
-    color: #fff;
-    text-decoration: none;
+/* ログアウトフォームのスタイル */
+.header-nav-list .form {
+    display: flex;
+    /* フォーム内のボタンも横並びにするため */
+    align-items: center;
+    margin: 0;
+    /* formのデフォルトマージンをリセット */
+    height: 100%;
+    /* 親要素の高さに合わせる */
+    flex-shrink: 0;
 }
 
+/* ナビゲーションボタン（ログアウトボタン）のスタイル */
 .header-nav__button {
     border: none;
     background: transparent;
     color: #fff;
     font-size: 16px;
     cursor: pointer;
+    white-space: nowrap;
+    /* テキストが改行されないようにする */
+    padding: 8px 10px;
+    /* クリックしやすいようにパディングを追加 */
+    transition: color 0.2s ease;
 }
 
-.header-nav-list {
-    display: flex;
-    /* ← ここでリストアイテムを横並びにする */
-    align-items: center;
-    /* 必要に応じて垂直方向中央揃え */
-    list-style: none;
-    /* デフォルトのリストの点を取り除く */
-    padding: 0;
-    margin: 0;
+.header-nav__button:hover {
+    color: #ddd;
+    /* ホバー時の色 */
 }
 
+/* ナビゲーションアイテムのスタイル（マイページ、出品） */
 .header-nav-item {
     margin-left: 15px;
     /* 各リストアイテム間の間隔 */
-    /* display: flex; ← これは必要に応じて、リストアイテム内の要素を横並びにする場合に使用 */
+    white-space: nowrap;
+    /* テキストが改行されないようにする */
+    flex-shrink: 0;
 }
 
-.header-nav-item:first-child {
-    margin-left: 0;
+.header-nav-item a {
+    color: #fff;
+    /* リンクの色を白に */
+    text-decoration: none;
+    /* 下線を削除 */
+    padding: 8px 0;
+    /* クリックしやすいように上下パディングを追加 */
+    transition: color 0.2s ease;
 }
+
+.header-nav-item a:hover {
+    color: #ddd;
+}
+

@@ -22,8 +22,11 @@
                 <label>カテゴリー</label>
                 <div class="category-options">
                     @foreach ($categories as $category)
-                        <input type="radio" name="categories[]" value="{{ $category->id }}" id="category_radio_{{ $category->id }}" class="category-radio" {{ old('categories.0') == $category->id ? 'checked' : '' }}>
-                        <label for="category_radio_{{ $category->id }}" class="category-radio-label">
+                        <input type="checkbox" name="categories[]" value="{{ $category->id }}" id="category_{{ $category->id }}" class="category-hidden-checkbox"
+                            @if (is_array(old('categories')) && in_array($category->id, old('categories')))
+                                checked
+                            @endif
+                        > <label for="category_{{ $category->id }}" class="category-custom-label">
                             {{ $category->name }}
                         </label>
                     @endforeach

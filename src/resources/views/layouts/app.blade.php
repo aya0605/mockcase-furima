@@ -20,8 +20,7 @@
                         <img src="{{ asset('images/logo.svg') }}" alt="COACHTECH">
                     </a>
                     <form class="header-search-form">
-                        <input type="text" class="header-search-input" placeholder="何をお探しですか？">
-                        <button type="submit" class="header-search-button">検索</button>
+                        <input type="text" class="header-search-input" placeholder="なにをお探しですか？">
                     </form>
                     <nav>
                         <ul class="header-nav-list">
@@ -30,7 +29,7 @@
                                     @csrf
                                     <button class="header-nav__button">ログアウト</button>
                                 </form>
-                                <li class="header-nav-item"><a href="/profile">マイページ</a></li>
+                                <li class="header-nav-item"><a href="/user/profile/edit">マイページ</a></li>
                                 <li class="header-nav-item"><a href="/sell" class="add-button">出品</a></li>
                             @else
                                 <li class="header-nav-item"><a href="/login">ログイン</a></li>
@@ -44,6 +43,7 @@
             @yield('content')
         </div>
     </div>
+    @yield('scripts')
 </body>
 
 </html>

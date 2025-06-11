@@ -72,17 +72,16 @@ h2 {
     margin-top: 5px;
 }
 
-.category-radio {
+.category-hidden-checkbox {
     position: absolute;
     opacity: 0;
     pointer-events: none;
-    /* クリックイベントを受け取らないようにする */
 }
 
-.category-radio-label {
-    background-color: #f0f0f0;
-    color: #333;
-    border: 1px solid #ccc;
+.category-custom-label {
+    background-color: white;
+    color: rgb(242, 96, 96);
+    border: 1px solid rgb(242, 96, 96);
     padding: 8px 12px;
     border-radius: 20px;
     /* 角丸 */
@@ -90,18 +89,17 @@ h2 {
     cursor: pointer;
     transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
     display: inline-block;
-    /* ラベルをブロック要素のように扱い、余白などを調整しやすくする */
 }
 
-.category-radio:checked+.category-radio-label {
-    background-color: #007bff;
+.category-hidden-checkbox:checked+.category-custom-label {
+    background-color: rgb(242, 96, 96);
     /* 青色 */
     color: white;
-    border-color: #007bff;
+    border-color: rgb(242, 96, 96);
 }
 
-.category-radio-label:hover {
-    background-color: #ddd;
+.category-custom-label:hover {
+    background-color: #ffebeb;
 }
 
 form div {

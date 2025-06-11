@@ -20,10 +20,9 @@ class CreateItemsTable extends Migration
             $table->string('image_url', 2048)->nullable();
             $table->integer('price');
             $table->string('condition');
-            $table->unsignedBigInteger('seller_id');
-            $table->foreign('seller_id')->references('id')->on('users');
-            $table->unsignedBigInteger('category_id');
-            $table->foreign('category_id')->references('id')->on('categories');
+            $table->string('brand')->nullable();
+            $table->foreignId('seller_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('category_id')->constrained('categories')->onDelete('cascade'); 
             $table->timestamps();
         });
     }

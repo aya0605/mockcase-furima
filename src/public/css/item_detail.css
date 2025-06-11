@@ -11,8 +11,6 @@
     margin: 20px auto;
     /* 中央寄せ */
     background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .item-image-section {
@@ -196,9 +194,9 @@
 
 .no-comments {
     color: #504d4d;
-        /* text-align: center;  この行を削除またはleftに変更 */
+    /* text-align: center;  この行を削除またはleftに変更 */
     text-align: left;
-        /* ★左寄せに修正 */
+    /* ★左寄せに修正 */
     padding: 5px;
     background-color: #e4e3e3;
 }

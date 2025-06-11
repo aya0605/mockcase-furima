@@ -27,19 +27,17 @@ class SellController extends Controller
         $item->seller_id = Auth::id();
 
         if ($request->hasFile('image')) {
-            $imageFile = $request->file('image');
-            $dir = 'images';
-            $file_name = $imageFile->getClientOriginalName();
-            $path_in_storage = $imageFile->storeAs('public/' . $dir, $file_name);
-            $item->image_url = 'storage/' . $dir . '/' . $file_name;
+            $path = $request->file('image')->store('public/items');
+            $item->image_url = Storage::url($path);
         } else {
             $item->image_url = null;
         }
 
         $item->save();
 
-        if ($request->filled('categories')) {
-            $item->categories()->sync($request->input('categories'));
+        $selectedCategories = $request->input('categories');
+        if (is_array($selectedCategories)) { 
+            $item->categories()->sync($selectedCategories);
         } else {
             $item->categories()->detach();
         }

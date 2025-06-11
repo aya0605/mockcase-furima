@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Item;
 use App\Models\Comment;
 use App\Models\Like;
+use App\Models\User;
 use Illuminate\Http\Request; 
 use App\Http\Requests\CommentRequest;
+use App\Http\Requests\PurchaseRequest; 
 use Illuminate\Support\Facades\Auth; 
 
 class ItemController extends Controller
@@ -21,8 +23,7 @@ class ItemController extends Controller
     public function show(Item $item)
     {
         $item->load('categories', 'seller', 'comments.user', 'likes');
-        
-        return view('show', compact('item'));
+        return view('items.detail', compact('item')); 
     }
 
     public function storeComment(CommentRequest $request, Item $item)

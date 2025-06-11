@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddBrandToItemsTable extends Migration
+class AddProfileImageToUsers extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddBrandToItemsTable extends Migration
      */
     public function up()
     {
-        Schema::table('items', function (Blueprint $table) {
-            $table->string('brand')->nullable()->after('name');
+        Schema::table('users', function (Blueprint $table) {
+             $table->string('profile_image_path')->nullable()->after('name');
         });
     }
 
@@ -25,8 +25,8 @@ class AddBrandToItemsTable extends Migration
      */
     public function down()
     {
-        Schema::table('items', function (Blueprint $table) {
-            $table->dropColumn('brand');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('profile_image_path');
         });
     }
 }
