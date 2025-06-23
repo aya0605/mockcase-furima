@@ -1,16 +1,10 @@
-/* resources/css/profile_edit.css */
-
-/* コンテナの基本的なスタイル */
 .profile-edit-container {
     max-width: 600px;
-    /* フォームの最大幅を制限 */
     margin: 40px auto;
-    /* 中央寄せと上下の余白 */
     padding: 30px;
     background-color: #ffffff;
 }
 
-/* ページタイトル */
 .profile-edit-container h1 {
     font-size: 28px;
     color: #333;
@@ -19,7 +13,6 @@
     padding-bottom: 15px;
 }
 
-/* 成功メッセージ */
 .alert-success {
     background-color: #d4edda;
     color: #155724;
@@ -30,24 +23,18 @@
     text-align: center;
 }
 
-/* フォームグループ */
 .form-group {
     margin-bottom: 20px;
-    /* 各フォーム項目の下の余白 */
 }
 
 .form-group label {
     display: block;
-    /* ラベルをブロック要素にして一行占有 */
     font-size: 16px;
     color: #555;
     margin-bottom: 8px;
-    /* ラベルと入力フィールドの間隔 */
     font-weight: bold;
-    /* ラベルを太字に */
 }
 
-/* 入力フィールド */
 .form-control,
 .form-control-file {
     width: 100%;
@@ -56,73 +43,50 @@
     border-radius: 5px;
     font-size: 16px;
     box-sizing: border-box;
-    /* paddingとborderを幅に含める */
 }
 
-/* エラーメッセージ */
 .alert-danger {
     color: #dc3545;
-    /* 赤色 */
     font-size: 14px;
     margin-top: 5px;
     text-align: left;
 }
 
-/* プロフィール画像グループ */
 .profile-image-group {
     text-align: center;
-    /* 画像とファイル選択を中央寄せ */
 }
 
 .current-image-wrapper {
     margin-bottom: 15px;
     display: inline-block;
-    /* 画像の周りを囲むため */
     border: 2px solid #eee;
-    /* 画像の周りに枠線 */
     border-radius: 50%;
-    /* 円形にするために */
     overflow: hidden;
-    /* はみ出しを隠す */
     width: 120px;
-    /* 画像のコンテナサイズ */
     height: 120px;
-    /* 画像のコンテナサイズ */
     display: flex;
-    /* 中央寄せのために */
     justify-content: center;
     align-items: center;
 }
 
 .current-profile-image {
     width: 100%;
-    /* 親要素に合わせて幅100% */
     height: 100%;
-    /* 親要素に合わせて高さ100% */
     object-fit: cover;
-    /* 画像がコンテナに収まるようにトリミング */
     border-radius: 50%;
-    /* 画像自体も円形に */
 }
 
-/* ファイル選択フィールドの調整 */
 input[type="file"].form-control-file {
     padding: 10px 0;
-    /* ファイル選択はパディングが不要な場合が多い */
     border: none;
-    /* デフォルトのボーダーを削除 */
     background-color: transparent;
-    /* 背景色も透明に */
 }
 
-/* フォームアクション（ボタン群） */
 .form-actions {
     text-align: center;
-    /* ボタンを中央寄せ */
     margin-top: 30px;
 }
 
-/* 更新ボタン */
 .btn-primary {
     width: 100%;
     display: block;
@@ -135,15 +99,12 @@ input[type="file"].form-control-file {
     font-size: 18px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    /* ホバー時のアニメーション */
 }
 
 .btn-primary:hover {
     background-color: rgb(217, 19, 19);
-    /* ホバーで少し暗く */
 }
 
-/* レスポンシブ対応 (必要であれば追加) */
 @media (max-width: 768px) {
     .profile-edit-container {
         margin: 20px 15px;

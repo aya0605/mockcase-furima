@@ -22,6 +22,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'profile_image_path'
     ];
 
     protected $hidden = [
@@ -73,4 +74,8 @@ class User extends Authenticatable
         return $this->addresses()->where('is_default', true)->first();
     }
 
+    public function purchases()
+    {
+        return $this->hasMany(Purchase::class, 'user_id'); 
+    }
 }

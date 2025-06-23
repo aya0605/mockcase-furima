@@ -40,9 +40,7 @@ select[multiple] {
 
 .sell-form button[type="submit"] {
     background-color: red;
-    /* ボタンの背景色 */
     color: white;
-    /* ボタンの文字色 */
     padding: 10px 15px;
     border: none;
     border-radius: 5px;
@@ -68,7 +66,6 @@ h2 {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-    /* ボタン間の間隔 */
     margin-top: 5px;
 }
 
@@ -84,7 +81,6 @@ h2 {
     border: 1px solid rgb(242, 96, 96);
     padding: 8px 12px;
     border-radius: 20px;
-    /* 角丸 */
     font-size: 14px;
     cursor: pointer;
     transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
@@ -93,7 +89,6 @@ h2 {
 
 .category-hidden-checkbox:checked+.category-custom-label {
     background-color: rgb(242, 96, 96);
-    /* 青色 */
     color: white;
     border-color: rgb(242, 96, 96);
 }
@@ -114,10 +109,7 @@ form div span {
 
 form div input#price {
     flex-grow: 1;
-    /* 残りのスペースを占める */
     padding-left: 5px;
-    /* 必要に応じて調整 */
-    /* その他のスタイル */
 }
 
 form div.price-container {
@@ -132,69 +124,50 @@ form div.price-container span {
 
 form div.price-container input#price {
     padding-left: 15px;
-    /* ¥マークの幅に合わせて調整 */
 }
 
 .price-input-wrapper {
     display: flex;
     align-items: center;
-    /* 縦方向中央揃え */
     border: 1px solid #ddd;
-    /* 必要に応じてボーダーを付ける */
     border-radius: 4px;
-    /* 必要に応じて角丸を付ける */
     padding: 8px;
-    /* 必要に応じてパディングを付ける */
     box-sizing: border-box;
-    /* padding, border を含めて幅を計算 */
 }
 
 .yen-mark {
     margin-right: 5px;
     color: black;
-    /* ¥マークの色 */
     font-size: 16px;
-    /* ¥マークのフォントサイズ */
 }
 
 .price-input-wrapper input.text {
     border: none;
-    /* 元の input のボーダーを消す */
     padding: 0;
-    /* 元の input のパディングを消す */
     margin: 0;
     flex-grow: 1;
-    /* 残りのスペースを占める */
     font-size: 16px;
-    /* input のフォントサイズ */
 }
 
 .price-input-wrapper input.text:focus {
     outline: none;
-    /* フォーカス時のデフォルトの枠線を消す */
 }
 
 .comment-login-button {
     display: block;
-    /* ブロック要素にして幅いっぱいに広げる */
     background-color: #007bff;
-    /* 青色、またはフォームボタンに合わせた色 */
     color: #fff;
     padding: 10px 15px;
     border-radius: 5px;
     text-align: center;
     text-decoration: none;
-    /* 下線なし */
     font-size: 1.1em;
     font-weight: bold;
-    /* 少し太字に */
     margin-top: 10px;
-    /* 上に少し余白 */
     transition: background-color 0.3s ease;
     cursor: pointer;
 }
 
 .comment-login-button:hover {
     background-color: #0056b3;
-    /* ホバー時の色 */
 }

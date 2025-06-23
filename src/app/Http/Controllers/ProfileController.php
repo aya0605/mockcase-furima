@@ -8,6 +8,7 @@ use App\Http\Requests\AddressRequest;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\Address;
 use App\Models\User;
+use App\Models\Purchase;
 use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
@@ -51,16 +52,15 @@ class ProfileController extends Controller
 
     }
 
-    public function editProfile() // ★このメソッドが追加されているか確認★
+    public function editProfile() 
     {
         $user = Auth::user();
-        // ユーザーのデフォルト住所、なければ最新の住所、それでもなければ新しいAddressインスタンス
         $address = $user->defaultShippingAddress() ?? $user->addresses()->latest()->first() ?? new Address(['user_id' => $user->id]);
 
-        return view('user.profile.edit', compact('user', 'address'));
+        return view('user.profile_edit', compact('user', 'address'));
     }
 
-    public function updateProfile(ProfileUpdateRequest $request) // ★このメソッドも追加されているか確認★
+    public function updateProfile(ProfileUpdateRequest $request) 
     {
         $user = Auth::user();
 
@@ -94,6 +94,18 @@ class ProfileController extends Controller
             ));
         }
 
-        return redirect('/user/profile/edit')->with('success', 'プロフィールを更新しました。');
+        return redirect('/user/profile')->with('success', 'プロフィールを更新しました。');
+    }
+
+    public function showProfile()
+    {
+        $user = Auth::user();
+
+        $soldItems = $user->items()->paginate(9, ['*'], 'soldPage');
+
+        $purchasedItems = $user->purchases()->with('item')->paginate(9, ['*'], 'purchasedPage');
+
+
+        return view('user.profile', compact('user', 'soldItems', 'purchasedItems')); 
     }
 }

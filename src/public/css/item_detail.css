@@ -1,43 +1,31 @@
 .item-detail-container {
     display: flex;
-    /* Flexboxを有効にする */
     justify-content: center;
-    /* コンテンツを水平方向の中央に配置 */
     gap: 40px;
-    /* 画像と情報の間にスペースを開ける */
     padding: 20px;
     max-width: 1200px;
-    /* 全体の最大幅を設定 */
     margin: 20px auto;
-    /* 中央寄せ */
     background-color: #fff;
 }
 
 .item-image-section {
     flex: 1;
-    /* 利用可能なスペースを均等に占める */
     max-width: 45%;
-    /* 画像セクションの最大幅 */
     text-align: center;
-    /* 画像を中央に配置 */
 }
 
 .item-main-image {
     width: 100%;
     height: auto;
     max-width: 500px;
-    /* 画像自体の最大幅 */
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .item-info-section {
     flex: 1;
-    /* 利用可能なスペースを均等に占める */
     max-width: 55%;
-    /* 情報セクションの最大幅 */
     padding-left: 20px;
-    /* 左側に少し余白 */
 }
 
 .item-name {
@@ -69,7 +57,6 @@
 .item-interactions i {
     margin-right: 5px;
     color: #e44d26;
-    /* アイコンの色 */
 }
 
 .item-description-block,
@@ -120,7 +107,6 @@
 .buy-button {
     display: inline-block;
     background-color: rgb(242, 66, 66);
-    /* 青色 */
     color: #fff;
     padding: 10px 40px;
     border-radius: 3px;
@@ -136,7 +122,6 @@
     background-color: #dc3545;
 }
 
-/* コメントセクション */
 .item-comments-section {
     margin-top: 40px;
     padding: 20px;
@@ -156,9 +141,7 @@
 .comment-list {
     margin-bottom: 20px;
     max-height: 300px;
-    /* コメントリストの最大高さを設定 */
     overflow-y: auto;
-    /* スクロール可能にする */
     border-radius: 3px;
     padding: 5px;
     background-color: #fcfcfc;
@@ -171,7 +154,6 @@
 
 .comment-item:last-child {
     border-bottom: none;
-    /* 最後のコメントの下線はなし */
 }
 
 .comment-user {
@@ -188,15 +170,12 @@
     font-size: 0.85em;
     color: #888;
     display: block;
-    /* 改行 */
     margin-top: 5px;
 }
 
 .no-comments {
     color: #504d4d;
-    /* text-align: center;  この行を削除またはleftに変更 */
     text-align: left;
-    /* ★左寄せに修正 */
     padding: 5px;
     background-color: #e4e3e3;
 }
@@ -214,13 +193,11 @@
     border: 1px solid #ddd;
     border-radius: 5px;
     resize: vertical;
-    /* 垂直方向にのみリサイズ可能 */
     font-size: 1em;
 }
 
 .comment-form button[type="submit"] {
     background-color: red;
-    /* 強めの赤色に設定 */
     color: #fff;
     padding: 10px 15px;
     border: none;
@@ -229,17 +206,12 @@
     font-size: 1.1em;
     transition: background-color 0.3s ease;
     margin-top: 10px;
-    /* 必要であれば追加 */
     width: 100%;
-    /* 幅を親要素に合わせる */
     box-sizing: border-box;
-    /* パディングとボーダーを幅に含める */
 }
 
-/* ホバー時の色を元の赤より少し濃い色に変更 */
 .comment-form button[type="submit"]:hover {
     background-color: #c82333;
-    /* ホバー時に少し濃い赤に */
 }
 
 .login-prompt {
@@ -259,11 +231,9 @@
     text-decoration: underline;
 }
 
-/* レスポンシブ対応 */
 @media (max-width: 768px) {
     .item-detail-container {
         flex-direction: column;
-        /* 縦並びにする */
         gap: 20px;
         padding: 15px;
     }
@@ -271,7 +241,6 @@
     .item-image-section,
     .item-info-section {
         max-width: 100%;
-        /* 幅を100%にする */
         padding-left: 0;
     }
 
@@ -291,7 +260,6 @@
 .comment-login-button {
     display: block;
     background-color: #dc3545;
-    /* こちらも強めの赤色に */
     color: #fff;
     padding: 10px 15px;
     border-radius: 5px;
@@ -303,12 +271,9 @@
     transition: background-color 0.3s ease;
     cursor: pointer;
     width: 100%;
-    /* 親要素の幅に合わせる */
     box-sizing: border-box;
-    /* パディングとボーダーを幅に含める */
 }
 
 .comment-login-button:hover {
     background-color: #c82333;
-    /* ホバー時に少し濃い赤に */
 }

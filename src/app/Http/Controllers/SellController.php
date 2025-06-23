@@ -13,7 +13,7 @@ class SellController extends Controller
     public function create()
     {
         $categories = Category::all();
-        return view('create', compact('categories'));
+        return view('items.create', compact('categories'));
     }
 
     public function store(ExhibitionRequest $request)

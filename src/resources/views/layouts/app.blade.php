@@ -29,7 +29,7 @@
                                     @csrf
                                     <button class="header-nav__button">ログアウト</button>
                                 </form>
-                                <li class="header-nav-item"><a href="/user/profile/edit">マイページ</a></li>
+                                <li class="header-nav-item"><a href="/user/profile">マイページ</a></li>
                                 <li class="header-nav-item"><a href="/sell" class="add-button">出品</a></li>
                             @else
                                 <li class="header-nav-item"><a href="/login">ログイン</a></li>

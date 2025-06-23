@@ -1,5 +1,3 @@
-{{-- resources/views/user/profile/edit.blade.php --}}
-
 @extends('layouts.app')
 
 @section('css')
@@ -16,7 +14,7 @@
             </div>
         @endif
 
-        <form action="/user/profile/update" method="POST" enctype="multipart/form-data" class="profile-edit-form">
+        <form action="/user/profile/update" method="POST" enctype="multipart/form-data" class="profile-form">
             @csrf
 
             {{-- 1. プロフィール画像 --}}

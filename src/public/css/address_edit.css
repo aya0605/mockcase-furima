@@ -1,17 +1,11 @@
-/* public/css/address_edit.css */
-
-/* コンテナ */
 .address-edit-container {
     max-width: 600px;
-    /* ★コンテナの最大幅を調整 (フォームの幅に影響)★ */
     margin: 50px auto;
-    /* 中央寄せ */
     padding: 30px;
     background-color: #ffffff;
     font-family: 'Arial', sans-serif;
     color: #1b1b1b;
     text-align: center;
-    /* コンテナ内のテキストを中央寄せ（h1などに影響） */
 }
 
 h1 {
@@ -19,31 +13,19 @@ h1 {
     color: #333;
     margin-bottom: 30px;
     text-align: center;
-    /* 中央寄せを維持 */
     padding-bottom: 20px;
 }
 
-/* フォーム本体 */
 .address-edit-form {
     max-width: 400px;
-    /* ★フォームの横幅を短くする（例: 400px）★ */
     margin: 0 auto;
-    /* ★フォームを中央に配置★ */
     padding: 20px;
-    /* フォーム内のパディング */
-    /* background-color: #f9f9f9; */
-    /* フォームの背景色を必要なら追加 */
     border-radius: 8px;
-    /* box-shadow: 0 2px 8px rgba(0,0,0,0.05); */
-    /* 必要ならフォームに影を追加 */
 }
 
-
-/* フォームグループ */
 .form-group {
     margin-bottom: 20px;
     text-align: left;
-    /* ★ラベルと入力フィールドを左寄せに戻す★ */
 }
 
 .form-group label {
@@ -56,7 +38,6 @@ h1 {
 
 .form-control {
     width: 100%;
-    /* 親要素 (address-edit-form) の幅に合わせる */
     padding: 12px 15px;
     border: 1px solid #ddd;
     border-radius: 5px;
@@ -71,21 +52,16 @@ h1 {
     outline: none;
 }
 
-/* エラーメッセージ */
 .alert.alert-danger {
     color: #dc3545;
     font-size: 0.85em;
     margin-top: 5px;
     padding: 5px 0;
     text-align: left;
-    /* エラーメッセージも左寄せ */
 }
 
-/* アクションボタン */
 .form-actions {
-    /* flexboxは使用せず、text-alignで中央寄せ */
     text-align: center;
-    /* ★ボタンを中央寄せ★ */
     margin-top: 30px;
 }
 
@@ -98,44 +74,23 @@ h1 {
     transition: background-color 0.3s ease, color 0.3s ease;
     text-decoration: none;
     display: inline-block;
-    /* ボタンはinline-blockかblockにする */
     text-align: center;
 }
 
 .btn-primary {
     background-color: rgb(242, 66, 66);
-    /* ★更新ボタンを赤色に★ */
     color: #fff;
     width: 100%;
-    /* ★親要素 (address-edit-form) の幅に合わせる★ */
     box-sizing: border-box;
-    /* パディングとボーダーを幅に含める */
     max-width: 600px;
-    /* ★フォーム本体の最大幅と合わせる★ */
     display: block;
-    /* margin:auto を適用するためにブロック要素にする */
     margin: 0 auto;
-    /* ★更新ボタンを中央寄せ★ */
 }
 
 .btn-primary:hover {
     background-color: #dc3545;
-    /* ホバー時の色 */
 }
 
-/* btn-secondary のスタイルは既に削除済みですが、念のため確認 */
-/*
-.btn-secondary {
-    background-color: #6c757d;
-    color: #fff;
-}
-
-.btn-secondary:hover {
-    background-color: #5a6268;
-}
-*/
-
-/* メッセージ表示 */
 .alert.alert-success {
     background-color: #d4edda;
     color: #155724;
@@ -146,7 +101,6 @@ h1 {
     text-align: center;
 }
 
-/* レスポンシブ対応 */
 @media (max-width: 768px) {
     .address-edit-container {
         margin: 20px auto;
@@ -167,18 +121,15 @@ h1 {
         font-size: 0.95em;
         width: 100%;
         max-width: unset;
-        /* スマホでは最大幅の制限を解除 */
     }
 
     .form-actions {
         flex-direction: column;
-        /* スマホでは縦並び */
         gap: 10px;
     }
 
     .btn {
         width: 100%;
         max-width: unset;
-        /* スマホでは最大幅の制限を解除 */
     }
 }

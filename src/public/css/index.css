@@ -1,12 +1,13 @@
-/* main-container */
 .main-container {
-    margin-top: 20px;
-    margin-bottom: 20px;
+    max-width: 1230px;
+    margin: 20px auto;
+    padding: 0 15px;
 }
 
-/* menu-nav */
 .menu-nav {
     margin-bottom: 20px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
 }
 
 .menu-list {
@@ -14,50 +15,78 @@
     padding: 0;
     margin: 0;
     display: flex;
-}
-
-.menu-item {
-    margin-right: 20px;
+    justify-content: left;
+    gap: 30px;
 }
 
 .menu-item a {
     text-decoration: none;
-    color: #333;
+    color: #555;
     font-weight: bold;
+    padding: 5px 10px;
+    transition: color 0.2s ease;
 }
 
-/* item-grid */
+.menu-item a:hover {
+    color: #007bff;
+}
+
 .item-grid {
-    margin-top: 20px;
+    margin-top: 30px;
 }
 
-/* item-card */
+.items-list-wrapper {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 0;
+    margin: 0;
+}
+
 .item-card {
-    border: 1px solid #ddd;
+    background-color: #fff;
+    border: 1px solid #eee;
     border-radius: 8px;
     overflow: hidden;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    transition: transform 0.2s ease;
+}
+
+.item-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .item-card img {
     width: 100%;
-    height: auto;
+    height: 100%;
     display: block;
+    object-fit: cover;
+    aspect-ratio: 1 / 1;
 }
 
-/* item-body */
 .item-body {
     padding: 15px;
+    flex-grow: 1;
 }
 
 .item-title {
-    font-size: 1.2em;
-    margin-bottom: 5px;
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-/* pagination-links */
 .pagination-links {
-    text-align: center;
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
 }
 
 .pagination-links nav ul {
@@ -68,7 +97,7 @@
 }
 
 .pagination-links nav ul li {
-    margin-right: 5px;
+    margin: 0 5px;
 }
 
 .pagination-links nav ul li a,
@@ -82,7 +111,7 @@
 }
 
 .pagination-links nav ul li a:hover {
-    background-color: #f8f9fa;
+    background-color: #f0f2f5;
 }
 
 .pagination-links nav ul li.active span {
@@ -92,7 +121,7 @@
 }
 
 .pagination-links nav ul li.disabled span {
-    color: #6c757d;
-    background-color: #e9ecef;
-    border-color: #e9ecef;
+    color: #aaa;
+    background-color: #f9f9f9;
+    border-color: #eee;
 }

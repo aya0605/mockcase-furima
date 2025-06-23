@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('css')
+    <link rel="stylesheet" href="{{ asset('css/items/index.css') }}">
+@endsection
+
 @section('content')
 <div class="main-container">
     <div class="menu-nav">
@@ -10,9 +14,9 @@
     </div>
 
     <div class="item-grid">
-        <div class="row row-cols-1 row-cols-md-3 g-4">
+        <div class="items-list-wrapper">
             @foreach ($items as $item)
-            <div class="col">
+            <div class="item-col">
                 <div class="item-card">
                     <a href="/items/{{ $item->id }}" class="item-link-wrapper">
                         @if ($item->image_url)
@@ -36,6 +40,3 @@
 </div>
 @endsection
 
-@section('css')
-<link rel="stylesheet" href="{{ asset('css/items/index.css') }}">
-@endsection

@@ -17,7 +17,7 @@ class ItemController extends Controller
     {
         $items = Item::latest()->paginate(8);
 
-        return view('index', compact('items'));
+        return view('items.index', compact('items'));
     }
 
     public function show(Item $item)

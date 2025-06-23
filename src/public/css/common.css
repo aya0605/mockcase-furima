@@ -1,8 +1,6 @@
 .header {
     background-color: #000;
-    /* ヘッダーの背景色を黒に明確に指定 */
     color: #fff;
-    /* ヘッダー内の文字色を白に指定 */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -20,7 +18,6 @@
     flex-wrap: nowrap;
 }
 
-/* ロゴのスタイル */
 .header__logo img {
     width: 250px;
     height: auto;
@@ -28,15 +25,11 @@
     flex-shrink: 0;
 }
 
-/* 検索フォームのスタイル */
 .header-search-form {
     display: flex;
     flex-grow: 1;
-    /* 利用可能なスペースを占めるようにする */
     margin-right: 20px;
-    /* ナビゲーションとの間にスペース */
     max-width: 450px;
-    /* 検索フォームの最大幅 */
     flex-shrink: 1;
 }
 
@@ -53,15 +46,13 @@
 .header-search-input::placeholder {
     color: black;
 }
-    
+
 
 .header-search-input:focus {
     outline: none;
     border-color: #aaa;
-    /* フォーカス時の枠線色 */
 }
 
-/* ナビゲーション全体のスタイル */
 .header-utilities nav {
     flex-shrink: 0;
     min-width: fit-content;
@@ -69,31 +60,22 @@
 
 .header-nav-list {
     display: flex;
-    /* リストアイテムを横並びにする */
     align-items: center;
-    /* 垂直方向中央揃え */
     list-style: none;
-    /* デフォルトのリストマーカーを削除 */
     padding: 0;
     margin: 0;
     justify-content: flex-end;
-    /* ナビゲーションアイテムを右端に寄せる */
     flex-wrap: nowrap;
 }
 
-/* ログアウトフォームのスタイル */
 .header-nav-list .form {
     display: flex;
-    /* フォーム内のボタンも横並びにするため */
     align-items: center;
     margin: 0;
-    /* formのデフォルトマージンをリセット */
     height: 100%;
-    /* 親要素の高さに合わせる */
     flex-shrink: 0;
 }
 
-/* ナビゲーションボタン（ログアウトボタン）のスタイル */
 .header-nav__button {
     border: none;
     background: transparent;
@@ -101,37 +83,27 @@
     font-size: 16px;
     cursor: pointer;
     white-space: nowrap;
-    /* テキストが改行されないようにする */
     padding: 8px 10px;
-    /* クリックしやすいようにパディングを追加 */
     transition: color 0.2s ease;
 }
 
 .header-nav__button:hover {
     color: #ddd;
-    /* ホバー時の色 */
 }
 
-/* ナビゲーションアイテムのスタイル（マイページ、出品） */
 .header-nav-item {
     margin-left: 15px;
-    /* 各リストアイテム間の間隔 */
     white-space: nowrap;
-    /* テキストが改行されないようにする */
     flex-shrink: 0;
 }
 
 .header-nav-item a {
     color: #fff;
-    /* リンクの色を白に */
     text-decoration: none;
-    /* 下線を削除 */
     padding: 8px 0;
-    /* クリックしやすいように上下パディングを追加 */
     transition: color 0.2s ease;
 }
 
 .header-nav-item a:hover {
     color: #ddd;
 }
-
