@@ -20,14 +20,11 @@
                     @endif
 
                     <div class="item-details-wrapper">
-                        {{-- 2. 商品名 --}}
                         <h2>{{ $item->name }}</h2>
-                        {{-- 3. 価格 --}}
                         <p class="purchase-item-price">価格: ￥{{ number_format($item->price) }}(税込)</p>
                     </div>
                 </div>
 
-                {{-- ★★★ ここに支払い方法選択を戻します ★★★ --}}
                 <div class="payment-method-info">
                     <h3>支払い方法</h3>
                     <div class="form-group">
@@ -41,7 +38,6 @@
                     </div>
                 </div>
 
-                {{-- お届け先情報 --}}
                 <div class="shipping-address-info">
                     <h3>配送先</h3>
                     @auth
@@ -82,9 +78,7 @@
 
                 <form action="/items/{{ $item->id }}/purchase" method="POST" class="purchase-form">
                     @csrf
-                    {{-- ★★★ ここに隠しフィールドを追加します ★★★ --}}
                     <input type="hidden" name="payment_method" id="hidden_payment_method">
-                    {{-- ★★★ ここまで ★★★ --}}
 
                     <button type="submit" class="confirm-purchase-button">購入する</button>
                 </form>
@@ -96,9 +90,9 @@
 @section('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        const paymentMethodSelect = document.getElementById('payment_method_select'); // IDを変更
+        const paymentMethodSelect = document.getElementById('payment_method_select'); 
         const selectedPaymentMethodElement = document.getElementById('selected_payment_method');
-        const hiddenPaymentMethodInput = document.getElementById('hidden_payment_method'); // 隠しフィールドの要素を取得
+        const hiddenPaymentMethodInput = document.getElementById('hidden_payment_method'); 
 
         const paymentMethodNames = {
             'credit_card': 'クレジットカード',
@@ -108,7 +102,7 @@
         function updatePaymentMethodDisplay() {
             const selectedMethod = paymentMethodSelect.value;
             selectedPaymentMethodElement.textContent = paymentMethodNames[selectedMethod] || '不明';
-            hiddenPaymentMethodInput.value = selectedMethod; // 隠しフィールドに値を設定
+            hiddenPaymentMethodInput.value = selectedMethod; 
         }
 
         updatePaymentMethodDisplay();

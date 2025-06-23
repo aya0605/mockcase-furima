@@ -24,9 +24,9 @@ class AddressRequest extends FormRequest
     public function rules()
     {
         return [
-            'postal_code' => ['required', 'string', 'regex:/^\d{3}-\d{4}$/', 'max:8'], // 郵便番号: 入力必須、ハイフンあり8文字
-            'address' => ['required', 'string', 'max:255'], // 住所: 入力必須
-            'building_name' => ['required', 'string', 'max:255'], // ★建物名: 入力必須に変更★
+            'postal_code' => ['required', 'string', 'regex:/^\d{3}-\d{4}$/', 'max:8'], 
+            'address' => ['required', 'string', 'max:255'], 
+            'building_name' => ['required', 'string', 'max:255'], 
         ];
     }
 

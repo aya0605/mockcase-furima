@@ -64,30 +64,23 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
 
-        // 1. ユーザー名の更新
         $user->name = $request->input('name');
 
-        // 2. プロフィール画像の更新
         if ($request->hasFile('profile_image')) {
-            // 古い画像があれば削除
             if ($user->profile_image_path) {
                 Storage::delete($user->profile_image_path);
             }
-            // 新しい画像を保存し、パスをDBに保存
             $path = $request->file('profile_image')->store('public/profile_images');
             $user->profile_image_path = $path;
         }
 
-        $user->save(); // Userモデルを保存
+        $user->save(); 
 
-        // 3. 住所情報の更新（Addressモデルを操作）
         $address = $user->defaultShippingAddress() ?? $user->addresses()->latest()->first();
 
         if ($address) {
-            // 既存の住所を更新
             $address->update($request->only(['postal_code', 'address', 'building_name']));
         } else {
-            // 新しい住所を作成し、デフォルトに設定
             $user->addresses()->create(array_merge(
                 $request->only(['postal_code', 'address', 'building_name']),
                 ['is_default' => true]

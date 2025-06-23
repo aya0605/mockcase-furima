@@ -20,7 +20,7 @@ class PurchaseController extends Controller
         if ($user) {
             $shippingAddress = $user->defaultShippingAddress() ?? $user->address()->latest()->first();
         }
-        
+
         return view('items.purchase', compact('item', 'shippingAddress'));
     
     }
@@ -44,7 +44,6 @@ class PurchaseController extends Controller
             return redirect()->back()->with('error', '配送先情報が登録されていません。');
         }
 
-        // ★Addressモデルから住所情報を取得して連結★
         $shippingAddressText = '';
         if ($shippingAddressObject->postal_code) {
             $shippingAddressText .= '〒' . $shippingAddressObject->postal_code . ' ';
@@ -66,7 +65,6 @@ class PurchaseController extends Controller
             'status' => 'pending', 
         ]);
 
-        // 購入完了後、グローバルな購入完了ページにリダイレクト
         return redirect('/purchase/complete')->with('success', '購入手続きが完了しました！'); 
     }
 
