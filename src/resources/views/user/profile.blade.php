@@ -1,91 +1,96 @@
 @extends('layouts.app')
 
 @section('css')
+    {{-- CSSはprofile.cssのみ残しました --}}
     <link rel="stylesheet" href="{{ asset('css/profile.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/items/index.css') }}">
 @endsection
 
 @section('content')
-    <div class="mypage-container">
-
-        @if (session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
-        @endif
-
-        <div class="profile-summary">
-            <div class="profile-info">
-                <div class="profile-image-display">
-                    @if (Auth::user()->profile_image_path)
-                        <img src="{{ Storage::url(Auth::user()->profile_image_path) }}" alt="プロフィール画像" class="profile-img">
-                    @else
-                        <img src="{{ asset('images/default_profile.png') }}" alt="デフォルト画像" class="profile-img">
-                    @endif
-                </div>
-                <p class="profile-name">{{ Auth::user()->name }}</p>
-            </div>
-            <a href="/user/profile/edit" class="btn btn-primary profile-edit-link">プロフィールを編集</a>
+<div class="container">
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
         </div>
+    @endif
 
-        <div class="mypage-sections">
-            <div class="mypage-section sold-items-section">
-                <h2>出品した商品</h2>
-                @if ($soldItems->isEmpty())
-                    <p>まだ出品した商品はありません。</p>
+    {{-- 1. ユーザー情報エリアの修正 (模範解答のクラス名に合わせる) --}}
+    <div class="user">
+        <div class="user__info">
+            <div class="user__img">
+                @if (Auth::user()->profile_image_path)
+                    <img src="{{ Storage::url(Auth::user()->profile_image_path) }}" alt="プロフィール画像" class="user__icon">
                 @else
-                    <div class="items-list-wrapper">
-                        @foreach ($soldItems as $item)
-                        <div class="item-col">
-                            <div class="item-card">
-                                <a href="/items/{{ $item->id }}" class="item-link-wrapper">
-                                    @if ($item->image_url)
-                                    <img src="{{ asset($item->image_url) }}" class="card-img-top" alt="{{ $item->name }}">
-                                    @else
-                                    <img src="{{ asset('images/no_image.png') }}" class="card-img-top" alt="No Image">
-                                    @endif
-                                </a>
-                                <div class="item-body">
-                                    <h5 class="item-title">{{ $item->name }}</h5>
-                                </div>
-                            </div>
-                        </div>
-                        @endforeach
-                    </div>
-                    <div class="pagination-links mt-4">
-                        {{ $soldItems->links() }}
-                    </div>
+                    {{-- default_profile.pngが404エラーなので、asset()のパスを修正するか、ファイルを配置してください --}}
+                    <img src="{{ asset('images/default_profile.png') }}" alt="デフォルト画像" class="user__icon">
                 @endif
             </div>
-
-            <div class="mypage-section purchased-items-section">
-                <h2>購入した商品</h2>
-                @if ($purchasedItems->isEmpty())
-                    
-                @else
-                    <div class="items-list-wrapper">
-                        @foreach ($purchasedItems as $purchase)
-                        <div class="item-col">
-                            <div class="item-card">
-                                <a href="/items/{{ $purchase->item->id }}" class="item-link-wrapper">
-                                    @if ($purchase->item->image_url)
-                                    <img src="{{ asset($purchase->item->image_url) }}" class="card-img-top" alt="{{ $purchase->item->name }}">
-                                    @else
-                                    <img src="{{ asset('images/no_image.png') }}" class="card-img-top" alt="No Image">
-                                    @endif
-                                </a>
-                                <div class="item-body">
-                                    <h5 class="item-title">{{ $purchase->item->name }}</h5>
-                                </div>
-                            </div>
-                        </div>
-                        @endforeach
-                    </div>
-                    <div class="pagination-links mt-4">
-                        {{ $purchasedItems->links() }}
-                    </div>
-                @endif
-            </div>
+            <p class="user__name">{{ Auth::user()->name }}</p>
+        </div>
+        <div class="mypage__user--btn">
+            <a class="btn2" href="/user/profile/edit">プロフィールを編集</a>
         </div>
     </div>
+
+    {{-- 2. タブ切り替え構造の修正 (模範解答のクラス名とURLロジックに合わせる) --}}
+    <div class="border">
+        <ul class="border__list">
+            {{-- page='sell' が現在のタブの状態を保持する変数 $page に入っていると仮定 --}}
+            <li class="@if ($page === 'sell') active @endif"><a href="/user/profile?page=sell">出品した商品</a></li>
+            <li class="@if ($page === 'buy') active @endif"><a href="/user/profile?page=buy">購入した商品</a></li>
+        </ul>
+    </div>
+
+    {{-- 3. 商品一覧表示エリアの修正 (模範解答のクラス名と構造に合わせる) --}}
+    <div class="items">
+        <div class="items-list-wrapper">
+            
+            @if ($page === 'sell')
+                {{-- 出品した商品セクション (FN015-1) --}}
+                @forelse ($soldItems as $item)
+                <div class="item-col">
+                    <div class="item">
+                        <a href="/items/{{ $item->id }}">
+                            {{-- 模範解答の画像コンテナの構造に合わせる。sold()の判定はコントローラー側で実施 --}}
+                            <div class="item__img--container @if ($item->sold()) sold @endif">
+                                @if ($item->image_url)
+                                <img src="{{ asset($item->image_url) }}" class="item__img" alt="{{ $item->name }}">
+                                @else
+                                <img src="{{ asset('images/no_image.png') }}" class="item__img" alt="No Image">
+                                @endif
+                            </div>
+                            <p class="item__name">{{ $item->name }}</p>
+                        </a>
+                    </div>
+                </div>
+                @empty
+                    <p>まだ出品した商品はありません。</p>
+                @endforelse
+            @elseif ($page === 'buy')
+                {{-- 購入した商品セクション (FN015-2) --}}
+                @forelse ($purchasedItems as $purchase)
+                <div class="item-col">
+                    <div class="item">
+                        <a href="/items/{{ $purchase->item->id }}">
+                            <div class="item__img--container @if ($purchase->item->sold()) sold @endif">
+                                @if ($purchase->item->image_url)
+                                <img src="{{ asset($purchase->item->image_url) }}" class="item__img" alt="{{ $purchase->item->name }}">
+                                @else
+                                <img src="{{ asset('images/no_image.png') }}" class="item__img" alt="No Image">
+                                @endif
+                            </div>
+                            <p class="item__name">{{ $purchase->item->name }}</p>
+                        </a>
+                    </div>
+                </div>
+                @empty
+                    <p>まだ購入した商品はありません。</p>
+                @endforelse
+            @endif
+        </div>
+
+        {{-- ページネーション (現在は簡略化のため $soldItems->links() を削除) --}}
+        {{-- コントローラー側で $items をページネーションにかけている場合、links() は $items に適用 --}}
+        {{-- {{ $items->links() }} --}} 
+    </div>
+</div>
 @endsection

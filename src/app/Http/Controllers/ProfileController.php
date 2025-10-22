@@ -90,15 +90,42 @@ class ProfileController extends Controller
         return redirect('/user/profile')->with('success', 'プロフィールを更新しました。');
     }
 
-    public function showProfile()
+    public function showProfile(Request $request)
     {
         $user = Auth::user();
 
-        $soldItems = $user->items()->paginate(9, ['*'], 'soldPage');
+        $page = $request->input('page', 'sell'); 
 
-        $purchasedItems = $user->purchases()->with('item')->paginate(9, ['*'], 'purchasedPage');
+    // 変数を初期化
+    $soldItems = collect([]); 
+    $purchasedItems = collect([]);
 
+    // 2. ページの状態に応じて商品データを取得
+    $perPage = 9; // 1ページあたりの表示件数
 
-        return view('user.profile', compact('user', 'soldItems', 'purchasedItems')); 
+    if ($page === 'sell') {
+        // 出品した商品を取得 (soldItems)
+        // ページネーションのページ名に 'soldPage' を使用
+        $soldItems = $user->items()
+                          ->with('purchase') // 商品のSold状態を判定できるようにリレーションをロード
+                          ->paginate($perPage, ['*'], 'soldPage')
+                          ->withQueryString();
+
+    } else { // 'buy' の場合
+        // 購入した商品を取得 (purchasedItems)
+        // ページネーションのページ名に 'purchasedPage' を使用
+        $purchasedItems = $user->purchases()
+                               ->with('item.purchase') // 購入商品のSold状態を判定できるようにリレーションをロード
+                               ->paginate($perPage, ['*'], 'purchasedPage')
+                               ->withQueryString();
+    }
+
+    return view('user.profile', [
+        'user' => $user, 
+        // ★ $page 変数を Blade に渡す ★
+        'page' => $page, 
+        'soldItems' => $soldItems,
+        'purchasedItems' => $purchasedItems,
+    ]);
     }
 }

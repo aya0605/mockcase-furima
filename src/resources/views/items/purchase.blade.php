@@ -1,5 +1,3 @@
-{{-- resources/views/items/purchase.blade.php --}}
-
 @extends('layouts.app')
 
 @section('css')
@@ -14,8 +12,10 @@
                 <div class="purchase-item-info">
                     {{-- 1. 商品画像 --}}
                     @if ($item->image_url)
-                        <img src="{{ asset($item->image_url) }}" alt="{{ $item->name }}" class="purchase-item-image">
+                        {{-- \Storage::url() を使用して画像URLを正しく生成 --}}
+                        <img src="{{ \Storage::url($item->image_url) }}" alt="{{ $item->name }}" class="purchase-item-image">
                     @else
+                        {{-- 仮の画像パス --}}
                         <img src="{{ asset('images/no_image.png') }}" alt="画像なし" class="purchase-item-image">
                     @endif
 
@@ -29,7 +29,7 @@
                     <h3>支払い方法</h3>
                     <div class="form-group">
                         <select id="payment_method_select" class="form-control"> 
-                        <option value="convenience_store">コンビニ払い</option>
+                            <option value="convenience_store" selected>コンビニ払い</option>
                             <option value="credit_card">クレジットカード</option>
                         </select>
                         @error('payment_method')
@@ -51,7 +51,8 @@
                         @else
                             <p>配送先が登録されていません。</p>
                         @endif
-                        <a href="/user/shipping-address/edit?item_id={{ $item->id }}" class="edit-address-link">変更する</a>
+                        {{-- 配送先変更ルートは仮のもの。適切なルートに修正してください。 --}}
+                        <a href="/user/shipping-address/edit" class="edit-address-link">変更する</a> 
                         @error('shipping_address_valid')
                             <div class="alert alert-danger" style="color: red; margin-top: 5px;">{{ $message }}</div>
                         @enderror
@@ -72,15 +73,24 @@
 
                     <div class="summary-row payment-display-row">
                         <span class="summary-label">支払い方法</span>
-                        <span class="summary-value" id="selected_payment_method">クレジットカード</span>
+                        {{-- 選択初期値はコンビニ払いに設定 --}}
+                        <span class="summary-value" id="selected_payment_method">コンビニ払い</span>
                     </div>
                 </div>
 
                 <form action="/items/{{ $item->id }}/purchase" method="POST" class="purchase-form">
                     @csrf
-                    <input type="hidden" name="payment_method" id="hidden_payment_method">
+                    {{-- ★修正点 2: フォーム内に隠しフィールド name="payment_method" を追加し、必ずデータを送信できるようにする★ --}}
+                    <input type="hidden" name="payment_method" id="hidden_payment_method" value="convenience_store">
 
-                    <button type="submit" class="confirm-purchase-button">購入する</button>
+                    {{-- 売り切れ/自分の商品でないかを確認 --}}
+                    @if ($item->sold())
+                        <button type="button" class="confirm-purchase-button disabled" disabled>sold</button>
+                    @elseif ($item->seller_id === Auth::id())
+                        <button type="button" class="confirm-purchase-button disabled" disabled>購入できません</button>
+                    @else
+                        <button type="submit" class="confirm-purchase-button">購入する</button>
+                    @endif
                 </form>
             </div>
         </div>
@@ -92,6 +102,7 @@
     document.addEventListener('DOMContentLoaded', function () {
         const paymentMethodSelect = document.getElementById('payment_method_select'); 
         const selectedPaymentMethodElement = document.getElementById('selected_payment_method');
+        // ★修正点 3: hiddenフィールドのIDを取得★
         const hiddenPaymentMethodInput = document.getElementById('hidden_payment_method'); 
 
         const paymentMethodNames = {
@@ -101,12 +112,15 @@
 
         function updatePaymentMethodDisplay() {
             const selectedMethod = paymentMethodSelect.value;
+            // 表示を更新
             selectedPaymentMethodElement.textContent = paymentMethodNames[selectedMethod] || '不明';
+            
+            // ★修正点 4: hiddenフィールドの値を更新し、フォーム送信時に値を送るようにする★
             hiddenPaymentMethodInput.value = selectedMethod; 
         }
 
+        // ページロード時と変更時に表示を更新
         updatePaymentMethodDisplay();
-
         paymentMethodSelect.addEventListener('change', updatePaymentMethodDisplay);
     });
 </script>

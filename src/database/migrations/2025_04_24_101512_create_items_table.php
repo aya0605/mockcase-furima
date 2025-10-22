@@ -19,10 +19,9 @@ class CreateItemsTable extends Migration
             $table->text('description');
             $table->string('image_url', 2048)->nullable();
             $table->integer('price');
-            $table->string('condition');
+            $table->foreignId('condition_id')->constrained('conditions')->onDelete('cascade');
             $table->string('brand')->nullable();
             $table->foreignId('seller_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('category_id')->constrained('categories')->onDelete('cascade'); 
             $table->timestamps();
         });
     }

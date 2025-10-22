@@ -19,7 +19,7 @@
     height: auto;
     max-width: 500px;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    object-fit: contain;
 }
 
 .item-info-section {
@@ -52,12 +52,59 @@
     margin-bottom: 20px;
     color: #555;
     font-size: 1.1em;
+    align-items: center;
+    /* 中央寄せを追加 */
+}
+
+/* いいねボタンとコメントアイコンのスタイルを細かく調整（追記部分） */
+.item-interactions .like-count,
+.item-interactions .comment-count {
+    display: flex;
+    align-items: center;
+    gap: 5px;
 }
 
 .item-interactions i {
-    margin-right: 5px;
+    margin-right: 0;
+    /* 不要なマージンをリセット */
+    font-size: 1.5em;
+    /* アイコンサイズを大きく */
+}
+
+/* いいねボタンの基本スタイル（フォームのデフォルトスタイルを上書きするためリセット） */
+.like-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+
+/* いいねボタン（未いいね時）のハートアイコンの色 */
+.like-button i.far {
+    /* far: fa-regular（枠線のみのハート） */
+    color: #888;
+    transition: color 0.2s ease;
+}
+
+.like-button:hover i.far {
     color: #e44d26;
 }
+
+/* いいねボタン（いいね済み時）のハートアイコンの色 */
+.like-button.liked i.fas {
+    /* fas: fa-solid（塗りつぶしのハート） */
+    color: #e44d26;
+}
+
+/* コメントアイコンの色 */
+.comment-count i.fas.fa-comment {
+    color: #33a5ff;
+    /* コメントは青系統に変更 */
+}
+
 
 .item-description-block,
 .item-details-block {
@@ -115,7 +162,6 @@
     font-weight: bold;
     transition: background-color 0.3s ease;
     width: 100%;
-
 }
 
 .buy-button:hover {
@@ -127,7 +173,6 @@
     padding: 20px;
     background-color: #fff;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .item-comments-section h3 {

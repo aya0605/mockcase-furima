@@ -13,11 +13,54 @@ use Illuminate\Support\Facades\Auth;
 
 class ItemController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $items = Item::latest()->paginate(8);
+       $tab = $request->input('tab', 'recommend'); 
+        $keyword = $request->input('keyword');
 
-        return view('items.index', compact('items'));
+        // 2. 基本となるクエリの構築
+        $query = Item::query();
+
+        // 3. FN014-4: 自分が出品した商品は表示されない
+        if (Auth::check()) {
+            // ユーザーIDを直接取得してクエリに追加
+            $currentUserId = Auth::id();
+            $query->where('seller_id', '!=', $currentUserId);
+        }
+
+        // 4. FN016: 検索機能 (商品名で部分一致検索)
+        if ($keyword) {
+            $query->where('name', 'LIKE', "%{$keyword}%");
+        }
+
+        // 5. FN014/FN015: タブによる表示の切り替え
+        if ($tab === 'mylist') {
+            // FN015: マイリスト (いいねした商品)
+            if (Auth::check()) {
+                // 認証済みの場合のみ、いいねした商品に絞り込む
+                $likedItemIds = Auth::user()->likes->pluck('item_id');
+                $query->whereIn('id', $likedItemIds);
+            } else {
+                // FN015-4: 未認証の場合は何も表示しない
+                $query->where('id', null);
+            }
+            
+        } else {
+            // FN014: おすすめ (全商品表示)
+            // デフォルトのクエリ (3. 4.) のまま
+        }
+        
+        // 6. データの取得
+        $items = $query->with('purchase') 
+                       ->orderBy('created_at', 'desc')
+                       ->paginate(12)
+                       ->withQueryString();
+
+        return view('items.index', [
+            'items' => $items,
+            'tab' => $tab, // Bladeに現在のタブの状態を渡す
+            'keyword' => $keyword, // Bladeに検索キーワードを渡す
+        ]);
     }
 
     public function show(Item $item)

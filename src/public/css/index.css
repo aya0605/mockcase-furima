@@ -1,127 +1,181 @@
+/* ----------------------------------------------------------------- */
+/* index.css: 模範解答のスタイルを元のクラス名に適用 (価格表示なし) */
+/* ----------------------------------------------------------------- */
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* -------------------
+   ナビゲーション (.menu-nav / .menu-list / .menu-item)
+   ------------------- */
+
 .main-container {
     max-width: 1230px;
     margin: 20px auto;
-    padding: 0 15px;
+    padding: 0 20px;
 }
 
 .menu-nav {
-    margin-bottom: 20px;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 10px;
+    margin-top: 30px;
+    margin-bottom: 0;
+    border-bottom: 1px solid #5F5F5F;
+    /* 模範解答の線 */
 }
 
 .menu-list {
+    display: flex;
     list-style: none;
     padding: 0;
     margin: 0;
-    display: flex;
     justify-content: left;
-    gap: 30px;
+}
+
+.menu-item {
+    /* 模範解答のパディング */
+    padding: 20px 80px;
+    font-weight: bold;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+/* 最初の項目（「おすすめ」）の左パディング */
+.menu-list li:first-child {
+    padding-left: 10%;
 }
 
 .menu-item a {
-    text-decoration: none;
-    color: #555;
+    color: #333;
     font-weight: bold;
-    padding: 5px 10px;
-    transition: color 0.2s ease;
 }
 
-.menu-item a:hover {
-    color: #007bff;
+/* アクティブタブの視覚的な表現 */
+.menu-item.active {
+    border-bottom: 3px solid #c12748;
+    /* SOLDカラーを使用 */
+    margin-bottom: -1px;
 }
 
+.menu-item.active a {
+    color: #c12748;
+}
+
+/* -------------------
+   商品グリッドレイアウト (.item-grid / .items-list-wrapper / .item-col / .item-card)
+   ------------------- */
 .item-grid {
-    margin-top: 30px;
+    padding: 30px 0;
 }
 
 .items-list-wrapper {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 20px;
-    padding: 0;
-    margin: 0;
+    /* 模範解答の.itemsのスタイル */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 35px 10px;
+    /* 縦35px、横10pxの隙間 */
+}
+
+.item-col {
+    /* 模範解答の.itemのスタイル: 固定幅 15em (240px) */
+    width: 15em;
+    flex-shrink: 0;
 }
 
 .item-card {
-    background-color: #fff;
-    border: 1px solid #eee;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    border: none;
+    box-shadow: none;
+}
+
+.item-link-wrapper {
+    display: block;
+    text-decoration: none;
+}
+
+/* 画像コンテナ (.item-img-container) */
+.item-img-container {
+    background-color: rgb(208, 208, 208);
+    border-radius: 5px;
+    width: 100%;
+    height: 15em;
+    /* 高さを固定 */
     display: flex;
-    flex-direction: column;
-    height: 100%;
-    transition: transform 0.2s ease;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
 }
 
-.item-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-.item-card img {
+/* 画像 (.item-img) */
+.item-img {
+    object-fit: cover;
     width: 100%;
     height: 100%;
-    display: block;
-    object-fit: cover;
-    aspect-ratio: 1 / 1;
 }
 
+/* 商品情報 (.item-body / .item-title) */
 .item-body {
-    padding: 15px;
-    flex-grow: 1;
+    padding: 0;
+    margin-top: 10px;
+    display: block;
 }
 
 .item-title {
-    font-size: 1.1em;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 0;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.pagination-links {
-    margin-top: 30px;
-    display: flex;
-    justify-content: center;
-}
-
-.pagination-links nav ul {
-    display: inline-flex;
-    list-style: none;
-    padding: 0;
     margin: 0;
+    font-size: 1em;
+    line-height: 1.4;
+    font-weight: normal;
 }
 
-.pagination-links nav ul li {
-    margin: 0 5px;
+/* .item-priceのスタイルは削除しました */
+
+
+/* -------------------
+   売り切れ表示 (.sold)
+   ------------------- */
+
+.item-img-container.sold {
+    position: relative;
+    overflow: hidden;
 }
 
-.pagination-links nav ul li a,
-.pagination-links nav ul li span {
+/* 赤い三角の部分 */
+.item-img-container.sold::before {
+    content: "";
+    top: 0;
+    left: 0;
+    border-bottom: 4em solid transparent;
+    border-left: 4em solid #c12748;
+    /* 赤色 */
+    position: absolute;
+    z-index: 100;
+}
+
+/* "Sold" の文字の部分 */
+.item-img-container.sold::after {
+    content: "Sold";
     display: block;
-    padding: 8px 12px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    text-decoration: none;
-    color: #333;
+    top: 1em;
+    transform: rotate(-45deg);
+    color: #fff;
+    left: 0.2em;
+    position: absolute;
+    z-index: 101;
 }
 
-.pagination-links nav ul li a:hover {
-    background-color: #f0f2f5;
-}
 
-.pagination-links nav ul li.active span {
-    background-color: #007bff;
-    color: white;
-    border-color: #007bff;
-}
+/* -------------------
+   レスポンシブ対応
+   ------------------- */
+@media (min-width: 768px) and (max-width: 850px) {
+    .item-col {
+        width: 25vw;
+        /* 画面幅の25% */
+    }
 
-.pagination-links nav ul li.disabled span {
-    color: #aaa;
-    background-color: #f9f9f9;
-    border-color: #eee;
+    .item-img-container {
+        width: 100%;
+        height: 10em;
+    }
 }

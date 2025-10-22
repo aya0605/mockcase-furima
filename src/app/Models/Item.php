@@ -4,6 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Purchase;
+use App\Models\User;
+use App\Models\Category;
+use App\Models\Like;
+use App\Models\Comment;
+
 
 class Item extends Model
 {
@@ -37,5 +43,17 @@ class Item extends Model
     public function comments()
     {
         return $this->hasMany(Comment::class);
+    }
+
+    public function purchase()
+    {
+        // Itemモデルは、Purchaseモデルと一対一で紐づく
+        return $this->hasOne(Order::class);
+    }
+
+    public function sold(): bool
+    {
+        // purchaseリレーションが存在するかどうかを確認する
+        return $this->purchase()->exists();
     }
 }
