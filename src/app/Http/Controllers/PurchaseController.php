@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\PurchaseRequest;
 use Illuminate\Support\Facades\DB;
-use Log; // Logファサードを使用可能にする
+use Log; 
 
 class PurchaseController extends Controller
 {
@@ -24,8 +24,8 @@ class PurchaseController extends Controller
         }
 
         // 既に購入済みの場合はリダイレクトする安全策を追加
-        if ($item->is_sold) {
-             return redirect()->route('item.show', $item->id)->with('error', 'この商品は既に購入されています。');
+        if ($item->sold()) {
+             return redirect()->to("/items/{$item->id}")->with('error', 'この商品は既に購入されています。');
         }
         
         // 支払い方法のダミーリストをViewに渡す（View側で必要）
@@ -43,8 +43,11 @@ class PurchaseController extends Controller
         $user = Auth::user();
 
         // 購入チェック
-        if ($item->is_sold) {
-             return redirect()->route('item.show', $item->id)->with('error', 'この商品は既に購入されています。');
+        if ($item->sold()) {
+             return response()->json([
+                'success' => false,
+                'message' => 'この商品は既に購入されています。'
+            ], 409);
         }
 
         $paymentMethod = $request->input('payment_method'); 
@@ -61,12 +64,17 @@ class PurchaseController extends Controller
         $shippingAddressObject = $user->defaultShippingAddress() ?? $user->addresses()->latest()->first();
 
         if (!$shippingAddressObject) {
-            return redirect()->back()->with('error', '配送先情報が登録されていません。');
+            return response()->json([
+                'success' => false,
+                'message' => '配送先情報が登録されていません。'
+            ], 400); // 400 Bad Request
         }
         
-        // 配送先情報が不完全な場合のバリデーション（オプション）
         if (empty($shippingAddressObject->postal_code) || empty($shippingAddressObject->address)) {
-            return redirect()->back()->with('error', '配送先情報が不完全です。ご購入前のご確認をお願いいたします。');
+            return response()->json([
+                'success' => false,
+                'message' => '配送先情報が不完全です。ご購入前のご確認をお願いいたします。'
+            ], 400); // 400 Bad Request
         }
 
         DB::beginTransaction();
@@ -85,33 +93,31 @@ class PurchaseController extends Controller
                 'shipping_prefecture' => $shippingAddressObject->prefecture ?? '', 
                 'shipping_city' => $shippingAddressObject->city ?? '',       
                 'shipping_street_address' => $shippingAddressObject->address,
-                'shipping_building_name' => $shippingAddressObject->building_name, 
+                'shipping_building_name' => $shippingAddressObject->building_name ?? '', 
 
                 'payment_method' => $paymentMethod, 
                 'status' => 'pending', 
             ];
             
             Order::create($dataToCreate);
-            
-            // Itemのis_soldフラグをtrueに更新する
-            $item->update(['is_sold' => true]);
-
-            // ★デバッグログ(info)を削除しました★
 
             DB::commit();
-            return redirect('purchase.complete')->with('success', '購入手続きが完了しました！'); 
+
+            return response()->json([
+                'success' => true,
+                'message' => '購入が完了しました！',
+            ]);
 
         } catch (\Exception $e) {
             DB::rollBack();
-            // 例外発生時のエラーログは残します
+            
             Log::error('Purchase Transaction FAILED. Exception: ' . $e->getMessage()); 
             
-            return redirect()->back()->with('error', '購入処理中に重大なエラーが発生しました。時間を置いて再度お試しください。');
+            return response()->json([
+                'success' => false,
+                'message' => '購入処理中にエラーが発生しました。' . $e->getMessage()
+            ], 500); // 500 Internal Server Error
         }
     }
 
-    public function showCompletion()
-    {
-        return view('purchase.complete');
-    }
 }

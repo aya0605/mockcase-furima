@@ -20,9 +20,11 @@ class Item extends Model
         'description',
         'image_url',
         'price',
-        'condition',
+        'condition_id',
         'seller_id',
         'brand',
+        'is_sold',
+        'buyer_id',
     ];
 
     public function seller()
@@ -47,13 +49,11 @@ class Item extends Model
 
     public function purchase()
     {
-        // Itemモデルは、Purchaseモデルと一対一で紐づく
         return $this->hasOne(Order::class);
     }
 
     public function sold(): bool
     {
-        // purchaseリレーションが存在するかどうかを確認する
         return $this->purchase()->exists();
     }
 }

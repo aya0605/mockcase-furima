@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Category;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class CategorySeeder extends Seeder
 {
@@ -14,6 +15,10 @@ class CategorySeeder extends Seeder
      */
     public function run()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+
+        Category::truncate();
+
         $categories = [
             ['name' => 'ファッション'],
             ['name' => '家電'],
@@ -31,5 +36,7 @@ class CategorySeeder extends Seeder
             ['name' => 'ベビー・キッズ'],
         ];
         Category::insert($categories);
+
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 }

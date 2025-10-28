@@ -73,21 +73,18 @@
 
                     <div class="summary-row payment-display-row">
                         <span class="summary-label">支払い方法</span>
-                        {{-- 選択初期値はコンビニ払いに設定 --}}
                         <span class="summary-value" id="selected_payment_method">コンビニ払い</span>
                     </div>
                 </div>
 
                 <form action="/items/{{ $item->id }}/purchase" method="POST" class="purchase-form">
                     @csrf
-                    {{-- ★修正点 2: フォーム内に隠しフィールド name="payment_method" を追加し、必ずデータを送信できるようにする★ --}}
                     <input type="hidden" name="payment_method" id="hidden_payment_method" value="convenience_store">
 
-                    {{-- 売り切れ/自分の商品でないかを確認 --}}
                     @if ($item->sold())
-                        <button type="button" class="confirm-purchase-button disabled" disabled>sold</button>
+                        <button type="button" class="confirm-purchase-button disabled" disabled style="background-color: #ccc; cursor: not-allowed;">Sold</button>
                     @elseif ($item->seller_id === Auth::id())
-                        <button type="button" class="confirm-purchase-button disabled" disabled>購入できません</button>
+                        <button type="button" class="confirm-purchase-button disabled" disabled style="background-color: #ccc; cursor: not-allowed;">購入できません</button>
                     @else
                         <button type="submit" class="confirm-purchase-button">購入する</button>
                     @endif
@@ -102,7 +99,6 @@
     document.addEventListener('DOMContentLoaded', function () {
         const paymentMethodSelect = document.getElementById('payment_method_select'); 
         const selectedPaymentMethodElement = document.getElementById('selected_payment_method');
-        // ★修正点 3: hiddenフィールドのIDを取得★
         const hiddenPaymentMethodInput = document.getElementById('hidden_payment_method'); 
 
         const paymentMethodNames = {

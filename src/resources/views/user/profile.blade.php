@@ -67,21 +67,24 @@
                 @endforelse
             @elseif ($page === 'buy')
                 {{-- 購入した商品セクション (FN015-2) --}}
-                @forelse ($purchasedItems as $purchase)
+                @forelse ($purchasedItems as $item)
+                @if ($item)
                 <div class="item-col">
                     <div class="item">
-                        <a href="/items/{{ $purchase->item->id }}">
-                            <div class="item__img--container @if ($purchase->item->sold()) sold @endif">
-                                @if ($purchase->item->image_url)
-                                <img src="{{ asset($purchase->item->image_url) }}" class="item__img" alt="{{ $purchase->item->name }}">
+                        <a href="/items/{{ $item->id }}"> 
+                            <div class="item__img--container @if ($item->sold()) sold @endif">
+                                @if ($item->image_url)
+                                <img src="{{ asset($item->image_url) }}" class="item__img" alt="{{ $item->name }}">
                                 @else
                                 <img src="{{ asset('images/no_image.png') }}" class="item__img" alt="No Image">
                                 @endif
                             </div>
-                            <p class="item__name">{{ $purchase->item->name }}</p>
+                            {{-- $purchase->item->name から $item->name に修正 --}}
+                            <p class="item__name">{{ $item->name }}</p>
                         </a>
                     </div>
                 </div>
+                @endif
                 @empty
                     <p>まだ購入した商品はありません。</p>
                 @endforelse

@@ -8,8 +8,10 @@ use App\Http\Requests\AddressRequest;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\Address;
 use App\Models\User;
-use App\Models\Purchase;
+use App\Models\Order; 
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class ProfileController extends Controller
 {
@@ -95,37 +97,48 @@ class ProfileController extends Controller
         $user = Auth::user();
 
         $page = $request->input('page', 'sell'); 
+        $perPage = 9; 
 
-    // 変数を初期化
-    $soldItems = collect([]); 
-    $purchasedItems = collect([]);
+        // ページネーターの初期化（LengthAwarePaginatorを使用）
+        $soldItems = new LengthAwarePaginator(Collection::make([]), 0, $perPage, 1, ['path' => LengthAwarePaginator::resolveCurrentPath()]);
+        $purchasedItems = new LengthAwarePaginator(Collection::make([]), 0, $perPage, 1, ['path' => LengthAwarePaginator::resolveCurrentPath()]);
 
-    // 2. ページの状態に応じて商品データを取得
-    $perPage = 9; // 1ページあたりの表示件数
+        if ($page === 'sell') {
+            
+            $soldItems = $user->items()
+                              ->with('purchase') 
+                              ->paginate($perPage, ['*'], 'soldPage')
+                              ->withQueryString();
 
-    if ($page === 'sell') {
-        // 出品した商品を取得 (soldItems)
-        // ページネーションのページ名に 'soldPage' を使用
-        $soldItems = $user->items()
-                          ->with('purchase') // 商品のSold状態を判定できるようにリレーションをロード
-                          ->paginate($perPage, ['*'], 'soldPage')
-                          ->withQueryString();
+        } else { 
+            $orders = $user->orders()
+                           ->with('item') 
+                           ->latest('order_date') 
+                           ->paginate($perPage, ['*'], 'purchasedPage')
+                           ->withQueryString();
 
-    } else { // 'buy' の場合
-        // 購入した商品を取得 (purchasedItems)
-        // ページネーションのページ名に 'purchasedPage' を使用
-        $purchasedItems = $user->purchases()
-                               ->with('item.purchase') // 購入商品のSold状態を判定できるようにリレーションをロード
-                               ->paginate($perPage, ['*'], 'purchasedPage')
-                               ->withQueryString();
-    }
+            // PaginatorからOrder内のItemコレクションを抽出
+            $itemsCollection = $orders->getCollection()->filter(fn ($order) => $order->item !== null)
+                                      ->map(fn ($order) => $order->item)
+                                      ->values(); 
 
-    return view('user.profile', [
-        'user' => $user, 
-        // ★ $page 変数を Blade に渡す ★
-        'page' => $page, 
-        'soldItems' => $soldItems,
-        'purchasedItems' => $purchasedItems,
-    ]);
+            $purchasedItems = new LengthAwarePaginator(
+                $itemsCollection,
+                $orders->total(),
+                $orders->perPage(),
+                $orders->currentPage(),
+                [
+                    'path' => $orders->path(),
+                    'pageName' => 'purchasedPage'
+                ]
+            );
+        }
+
+        return view('user.profile', [
+            'user' => $user, 
+            'page' => $page, 
+            'soldItems' => $soldItems,
+            'purchasedItems' => $purchasedItems,
+        ]);
     }
 }
