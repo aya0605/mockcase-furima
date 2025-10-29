@@ -11,7 +11,7 @@ class RegisterTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * 登録画面が表示されることを検証する
+     * 
      *
      * @return void
      */
@@ -23,7 +23,7 @@ class RegisterTest extends TestCase
     }
 
     /**
-     * 新規ユーザーが登録できることを検証する
+     * 
      *
      * @return void
      */
@@ -36,7 +36,6 @@ class RegisterTest extends TestCase
             'password_confirmation' => 'password',
         ]);
 
-        // データベースにユーザーが作成されたことを確認
         $this->assertDatabaseHas('users', [
             'email' => 'test@example.com',
         ]);
@@ -45,7 +44,7 @@ class RegisterTest extends TestCase
     }
 
     /**
-     * 不正なデータでユーザー登録が失敗することを検証する (例: パスワード不一致)
+     * 
      *
      * @return void
      */
@@ -55,13 +54,11 @@ class RegisterTest extends TestCase
             'name' => 'Test User',
             'email' => 'invalid@example.com',
             'password' => 'password',
-            'password_confirmation' => 'wrong-password', // パスワード不一致
+            'password_confirmation' => 'wrong-password', 
         ]);
 
-        // 認証されていないことを確認
         $this->assertGuest();
         
-        // バリデーションエラーで登録ページに戻されることを確認
         $response->assertSessionHasErrors('password');
     }
 }

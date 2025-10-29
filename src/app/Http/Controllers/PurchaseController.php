@@ -23,12 +23,10 @@ class PurchaseController extends Controller
             $shippingAddress = $user->defaultShippingAddress() ?? $user->addresses()->latest()->first();
         }
 
-        // 既に購入済みの場合はリダイレクトする安全策を追加
         if ($item->sold()) {
              return redirect()->to("/items/{$item->id}")->with('error', 'この商品は既に購入されています。');
         }
         
-        // 支払い方法のダミーリストをViewに渡す（View側で必要）
         $paymentMethods = [
             'credit_card' => 'カード支払い', 
             'convenience_store' => 'コンビニ払い',
@@ -42,7 +40,6 @@ class PurchaseController extends Controller
     {
         $user = Auth::user();
 
-        // 購入チェック
         if ($item->sold()) {
              return response()->json([
                 'success' => false,
@@ -54,7 +51,6 @@ class PurchaseController extends Controller
         $basePrice = $item->price;
         $paymentFee = 0;
 
-        // 支払い方法による手数料計算
         if ($paymentMethod === 'convenience_store') { 
             $paymentFee = 150; 
         }
@@ -67,14 +63,14 @@ class PurchaseController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => '配送先情報が登録されていません。'
-            ], 400); // 400 Bad Request
+            ], 400); 
         }
         
         if (empty($shippingAddressObject->postal_code) || empty($shippingAddressObject->address)) {
             return response()->json([
                 'success' => false,
                 'message' => '配送先情報が不完全です。ご購入前のご確認をお願いいたします。'
-            ], 400); // 400 Bad Request
+            ], 400); 
         }
 
         DB::beginTransaction();
@@ -87,9 +83,7 @@ class PurchaseController extends Controller
                 'total_amount' => $totalAmount, 
                 'order_date' => now(),
 
-                // shipping_postal_codeからハイフンを除去
                 'shipping_postal_code' => str_replace('-', '', $shippingAddressObject->postal_code), 
-                // Addressモデルにないカラムには空文字列を挿入してDBのNOT NULL制約に対応
                 'shipping_prefecture' => $shippingAddressObject->prefecture ?? '', 
                 'shipping_city' => $shippingAddressObject->city ?? '',       
                 'shipping_street_address' => $shippingAddressObject->address,
@@ -116,7 +110,7 @@ class PurchaseController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => '購入処理中にエラーが発生しました。' . $e->getMessage()
-            ], 500); // 500 Internal Server Error
+            ], 500); 
         }
     }
 

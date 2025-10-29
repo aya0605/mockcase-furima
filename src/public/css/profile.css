@@ -1,37 +1,27 @@
-
 .container {
-    /* 最大幅と中央寄せ。模範解答のレイアウト幅を確保 */
     max-width: 1230px;
     margin: 20px auto;
     padding: 0 15px;
 }
 
 .user {
-    /* 模範解答のCSSを適用 */
     display: flex;
     justify-content: space-around;
-    /* 左右に大きく広げる */
     align-items: center;
-
-    /* 追加調整 */
     padding: 20px 0;
     margin-bottom: 30px;
     border-bottom: 1px solid #eee;
-    /* 下線 */
 }
 
 .user__info {
-    /* 模範解答のCSSを適用 */
     display: flex;
     align-items: center;
 }
 
 .user__img {
-    /* 模範解答のCSSを適用 */
     width: 150px;
     height: 150px;
     margin-right: 60px;
-    /* アイコンと名前の間の余白 */
     display: flex;
     align-items: center;
     overflow: hidden;
@@ -41,31 +31,26 @@
 }
 
 .user__icon {
-    /* 画像をコンテナいっぱいに表示 */
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
 .user__name {
-    /* 模範解答のCSSを適用 */
     font-size: 20px;
     font-weight: bold;
     color: #333;
     margin: 0;
 }
 
-/* プロフィール編集ボタン */
 .mypage__user--btn {
     flex-shrink: 0;
 }
 
 .btn2 {
-    /* プロフィール編集ボタンのスタイル */
     display: inline-block;
     padding: 8px 25px;
     background-color: #dc3545;
-    /* 赤背景 */
     color: white;
     border: none;
     text-decoration: none;
@@ -75,7 +60,6 @@
 
 .border {
     border-bottom: 1px solid #5F5F5F;
-    /* タブリスト全体の下線 */
     margin-bottom: 30px;
 }
 
@@ -89,7 +73,6 @@
 
 .border__list li {
     padding: 20px 80px;
-    /* 適切なパディング */
     font-weight: bold;
     cursor: pointer;
 }
@@ -108,13 +91,11 @@
     color: #dc3545;
 }
 
-/* 以前の縦並び構造を非表示にする (Bladeで div.mypage-sections が残っている場合) */
 .mypage-sections {
     display: none;
 }
 
 .items {
-    /* 模範解答のCSSを適用 */
     margin-top: 30px;
 }
 
@@ -122,28 +103,22 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
-    /* 左寄せ */
     gap: 10px 10px;
-    /* アイテム間の隙間 */
     width: 100%;
 }
 
 .item-col {
-    /* 4列表示を想定し、幅を固定 */
     flex: 0 0 240px;
     max-width: 240px;
     box-sizing: border-box;
 }
 
 .item {
-    /* 模範解答は aタグ の外側に div.item があります */
     height: 100%;
 }
 
-/* 画像コンテナと sold ラベル */
 .item__img--container {
     height: 15em;
-    /* 適切な高さ */
     width: 100%;
     border-radius: 5px;
     background-color: #d0d0d0;
@@ -164,7 +139,6 @@
     margin-top: 10px;
 }
 
-/* Soldラベルのスタイル */
 .item__img--container.sold::before {
     content: "SOLD";
     position: absolute;
@@ -179,10 +153,6 @@
     z-index: 10;
     opacity: 0.9;
 }
-
-/* ======================================================= */
-/* 5. メディアクエリ (レスポンシブ調整) */
-/* ======================================================= */
 
 @media (max-width: 768px) {
     .user {
@@ -199,7 +169,6 @@
 
     .user__img {
         margin-right: 0;
-        /* アイコンが中央になるように余白を削除 */
     }
 
     .mypage__user--btn {

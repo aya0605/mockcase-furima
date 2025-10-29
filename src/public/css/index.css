@@ -1,15 +1,7 @@
-/* ----------------------------------------------------------------- */
-/* index.css: 模範解答のスタイルを元のクラス名に適用 (価格表示なし) */
-/* ----------------------------------------------------------------- */
-
 a {
     text-decoration: none;
     color: inherit;
 }
-
-/* -------------------
-   ナビゲーション (.menu-nav / .menu-list / .menu-item)
-   ------------------- */
 
 .main-container {
     max-width: 1230px;
@@ -21,7 +13,6 @@ a {
     margin-top: 30px;
     margin-bottom: 0;
     border-bottom: 1px solid #5F5F5F;
-    /* 模範解答の線 */
 }
 
 .menu-list {
@@ -33,14 +24,12 @@ a {
 }
 
 .menu-item {
-    /* 模範解答のパディング */
     padding: 20px 80px;
     font-weight: bold;
     cursor: pointer;
     white-space: nowrap;
 }
 
-/* 最初の項目（「おすすめ」）の左パディング */
 .menu-list li:first-child {
     padding-left: 10%;
 }
@@ -50,10 +39,8 @@ a {
     font-weight: bold;
 }
 
-/* アクティブタブの視覚的な表現 */
 .menu-item.active {
     border-bottom: 3px solid #c12748;
-    /* SOLDカラーを使用 */
     margin-bottom: -1px;
 }
 
@@ -61,24 +48,18 @@ a {
     color: #c12748;
 }
 
-/* -------------------
-   商品グリッドレイアウト (.item-grid / .items-list-wrapper / .item-col / .item-card)
-   ------------------- */
 .item-grid {
     padding: 30px 0;
 }
 
 .items-list-wrapper {
-    /* 模範解答の.itemsのスタイル */
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
     gap: 35px 10px;
-    /* 縦35px、横10pxの隙間 */
 }
 
 .item-col {
-    /* 模範解答の.itemのスタイル: 固定幅 15em (240px) */
     width: 15em;
     flex-shrink: 0;
 }
@@ -93,13 +74,11 @@ a {
     text-decoration: none;
 }
 
-/* 画像コンテナ (.item-img-container) */
 .item-img-container {
     background-color: rgb(208, 208, 208);
     border-radius: 5px;
     width: 100%;
     height: 15em;
-    /* 高さを固定 */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -107,14 +86,12 @@ a {
     position: relative;
 }
 
-/* 画像 (.item-img) */
 .item-img {
     object-fit: cover;
     width: 100%;
     height: 100%;
 }
 
-/* 商品情報 (.item-body / .item-title) */
 .item-body {
     padding: 0;
     margin-top: 10px;
@@ -128,31 +105,21 @@ a {
     font-weight: normal;
 }
 
-/* .item-priceのスタイルは削除しました */
-
-
-/* -------------------
-   売り切れ表示 (.sold)
-   ------------------- */
-
 .item-img-container.sold {
     position: relative;
     overflow: hidden;
 }
 
-/* 赤い三角の部分 */
 .item-img-container.sold::before {
     content: "";
     top: 0;
     left: 0;
     border-bottom: 4em solid transparent;
     border-left: 4em solid #c12748;
-    /* 赤色 */
     position: absolute;
     z-index: 100;
 }
 
-/* "Sold" の文字の部分 */
 .item-img-container.sold::after {
     content: "Sold";
     display: block;
@@ -164,14 +131,9 @@ a {
     z-index: 101;
 }
 
-
-/* -------------------
-   レスポンシブ対応
-   ------------------- */
 @media (min-width: 768px) and (max-width: 850px) {
     .item-col {
         width: 25vw;
-        /* 画面幅の25% */
     }
 
     .item-img-container {

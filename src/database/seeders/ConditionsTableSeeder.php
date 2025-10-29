@@ -18,7 +18,6 @@ class ConditionsTableSeeder extends Seeder
         DB::table('conditions')->truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS=1');
 
-        // カラム名を 'condition' から 'name' に修正
         DB::table('conditions')->insert([
             [
                 'id' => 1,

@@ -24,7 +24,7 @@ class LoginTest extends TestCase
     }
 
     /**
-     * ユーザーがメールアドレスとパスワードでログインできることを検証する
+     * 
      *
      * @return void
      */
@@ -39,15 +39,13 @@ class LoginTest extends TestCase
             'password' => 'password',
         ]);
 
-        // 認証されていることを確認
         $this->assertAuthenticated();
         
-        // ログイン後のトップページにリダイレクトされることを確認
         $response->assertRedirect('/');
     }
 
     /**
-     * 不正な認証情報でログインできないことを検証する
+     * 
      *
      * @return void
      */
@@ -62,7 +60,6 @@ class LoginTest extends TestCase
             'password' => 'wrong-password',
         ]);
 
-        // 認証されていないことを確認
         $this->assertGuest();
     }
 }

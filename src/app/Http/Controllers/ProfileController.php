@@ -99,7 +99,6 @@ class ProfileController extends Controller
         $page = $request->input('page', 'sell'); 
         $perPage = 9; 
 
-        // ページネーターの初期化（LengthAwarePaginatorを使用）
         $soldItems = new LengthAwarePaginator(Collection::make([]), 0, $perPage, 1, ['path' => LengthAwarePaginator::resolveCurrentPath()]);
         $purchasedItems = new LengthAwarePaginator(Collection::make([]), 0, $perPage, 1, ['path' => LengthAwarePaginator::resolveCurrentPath()]);
 
@@ -117,7 +116,6 @@ class ProfileController extends Controller
                            ->paginate($perPage, ['*'], 'purchasedPage')
                            ->withQueryString();
 
-            // PaginatorからOrder内のItemコレクションを抽出
             $itemsCollection = $orders->getCollection()->filter(fn ($order) => $order->item !== null)
                                       ->map(fn ($order) => $order->item)
                                       ->values(); 
