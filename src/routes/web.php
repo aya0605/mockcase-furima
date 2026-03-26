@@ -5,6 +5,7 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\SellController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TradeController;
 
 
 /*
@@ -54,4 +55,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/user/profile/edit', [ProfileController::class, 'editProfile']);
     Route::post('/user/profile/update', [ProfileController::class, 'updateProfile']);
 
+    Route::get('/trade/chat/{item_id}', [TradeController::class, 'showChat']);
+    Route::post('/trade/chat/{item_id}/send', [TradeController::class, 'sendMessage']);
+    Route::delete('/trade/message/{message}', [TradeController::class, 'destroyMessage']);
+    Route::patch('/trade/message/{message}', [TradeController::class, 'updateMessage']);
+    Route::post('/trade/rating/{item_id}', [TradeController::class, 'storeRating']);
 });

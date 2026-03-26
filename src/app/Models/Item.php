@@ -49,11 +49,16 @@ class Item extends Model
 
     public function purchase()
     {
-        return $this->hasOne(Order::class);
+        return $this->hasOne(Purchase::class);
     }
 
     public function sold(): bool
     {
         return $this->purchase()->exists();
+    }
+
+    public function messages()
+    {
+        return $this->hasMany(Message::class)->latest();
     }
 }

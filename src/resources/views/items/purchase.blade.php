@@ -8,10 +8,10 @@
     <div class="purchase-container">
         <div class="purchase-layout">
             <div class="purchase-main-content">
-                {{-- 左側のメインコンテンツ --}}
+                {{-- 左側のメインコンテンツ：商品情報と設定 --}}
                 <div class="purchase-item-info">
-                    {{-- 1. 商品画像 --}}
                     @if ($item->image_url)
+                        {{-- Storage::url() を使い、アップロードされた画像を正しく表示 --}}
                         <img src="{{ \Storage::url($item->image_url) }}" alt="{{ $item->name }}" class="purchase-item-image">
                     @else
                         <img src="{{ asset('images/no_image.png') }}" alt="画像なし" class="purchase-item-image">
@@ -26,7 +26,10 @@
                 <div class="payment-method-info">
                     <h3>支払い方法</h3>
                     <div class="form-group">
-                        {{-- 支払い方法のセレクトボックス --}}
+                        {{-- 
+                            セレクトボックス：売り切れや自分の商品の場合は操作不能(disabled)にする 
+                            ここでの変更を下のJavaScriptで検知して右側の表示に反映させる
+                        --}}
                         <select id="payment_method_select" class="form-control" {{ $item->sold() || $item->seller_id === Auth::id() ? 'disabled' : '' }}> 
                             <option value="convenience_store" selected>コンビニ払い</option>
                             <option value="credit_card">クレジットカード</option>
@@ -41,6 +44,7 @@
                     <h3>配送先</h3>
                     @auth
                         @if($shippingAddress)
+                            {{-- 登録されている住所を表示。未入力項目がある場合は警告を出す --}}
                             <p><strong>郵便番号:</strong> {{ $shippingAddress->postal_code ?? '未登録' }}</p>
                             <p><strong>住所:</strong> {{ $shippingAddress->address ?? '未登録' }}</p>
                             <p><strong>建物名:</strong> {{ $shippingAddress->building_name ?? '未登録' }}</p>
@@ -50,10 +54,8 @@
                         @else
                             <p>配送先が登録されていません。</p>
                         @endif
+                        {{-- 住所変更ページへのリンク。変更後はここに戻ってくる仕組みがController側にある --}}
                         <a href="/user/shipping-address/edit" class="edit-address-link">変更する</a> 
-                        @error('shipping_address_valid')
-                            <div class="alert alert-danger" style="color: red; margin-top: 5px;">{{ $message }}</div>
-                        @enderror
                     @else
                         <p>お届け先情報を表示するにはログインが必要です。</p>
                         <a href="/login" class="edit-address-link">ログインする</a>
@@ -62,7 +64,7 @@
             </div>
 
             <div class="purchase-sidebar">
-                {{-- 右側のサイドバーコンテンツ --}}
+                {{-- 右側のサイドバー：最終確認と実行ボタン --}}
                 <div class="purchase-summary-box">
                     <div class="summary-row">
                         <span class="summary-label">商品代金</span>
@@ -71,17 +73,20 @@
 
                     <div class="summary-row payment-display-row">
                         <span class="summary-label">支払い方法</span>
+                        {{-- JSで動的に書き換えられる部分 --}}
                         <span class="summary-value" id="selected_payment_method">コンビニ払い</span>
                     </div>
                 </div>
                 
-                {{-- エラーメッセージ表示用コンテナ --}}
+                {{-- JSからのエラーメッセージ（「購入に失敗しました」等）を表示する場所 --}}
                 <div id="resultContainer" class="mt-4" style="margin-bottom: 20px;"></div>
 
                 <form id="purchaseConfirmationForm" action="/items/{{ $item->id }}/purchase" method="POST" class="purchase-form">
                     @csrf
+                    {{-- セレクトボックスの値を送信するために隠し入力(hidden)を使用 --}}
                     <input type="hidden" name="payment_method" id="hidden_payment_method" value="convenience_store">
                     
+                    {{-- ボタンの状態制御：売り切れや自分の商品の場合は押せないようにする --}}
                     @if ($item->sold())
                         <button type="button" class="confirm-purchase-button disabled" disabled>Sold</button>
                     @elseif ($item->seller_id === Auth::id())
@@ -98,92 +103,65 @@
 @section('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function () {
+        // --- 1. 要素の取得 ---
         const paymentMethodSelect = document.getElementById('payment_method_select'); 
         const selectedPaymentMethodElement = document.getElementById('selected_payment_method');
         const hiddenPaymentMethodInput = document.getElementById('hidden_payment_method'); 
-
         const form = document.getElementById('purchaseConfirmationForm');
         const button = document.getElementById('executePurchaseButton');
         const resultContainer = document.getElementById('resultContainer'); 
-        const itemId = {{ $item->id }}; 
         
+        // LaravelのCSRF保護をJSでも通すためにトークンを取得
         const metaTag = document.querySelector('meta[name="csrf-token"]');
         const csrfToken = metaTag ? metaTag.content : null;
 
-        const paymentMethodNames = {
-            'credit_card': 'クレジットカード',
-            'convenience_store': 'コンビニ払い'
-        };
-
+        // --- 2. 支払い方法の表示連動 ---
         function updatePaymentMethodDisplay() {
+            const names = { 'credit_card': 'クレジットカード', 'convenience_store': 'コンビニ払い' };
             const selectedMethod = paymentMethodSelect.value;
-            selectedPaymentMethodElement.textContent = paymentMethodNames[selectedMethod] || '不明';
-            hiddenPaymentMethodInput.value = selectedMethod; 
+            selectedPaymentMethodElement.textContent = names[selectedMethod] || '不明';
+            hiddenPaymentMethodInput.value = selectedMethod; // 隠し入力に値をコピー
         }
 
-        updatePaymentMethodDisplay();
         paymentMethodSelect.addEventListener('change', updatePaymentMethodDisplay);
         
-        
-        // =========================================================
-        // 非同期購入処理のロジック
-        // =========================================================
-        
+        // --- 3. メッセージ表示用関数 ---
         function showMessageBox(message, isSuccess) {
-            if (isSuccess) {
-                resultContainer.innerHTML = ''; /
-                return;
-            }
-
-            const color = '#721c24'; 
-            const bgColor = '#f8d7da'; 
-            const borderColor = '#f5c6cb'; 
-            const typeText = 'エラー:';
-            const iconPath = 'M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z';
-
-            const icon = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="width: 1.2rem; height: 1.2rem; display: inline-block; vertical-align: middle;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${iconPath}" /></svg>`;
-
+            if (isSuccess) { resultContainer.innerHTML = ''; return; }
+            // エラー時のHTMLを動的に生成
             resultContainer.innerHTML = `
-                <div style="color: ${color}; background-color: ${bgColor}; border: 1px solid ${borderColor}; padding: 10px; border-radius: 4px; font-size: 14px; margin-top: 15px;">
-                    <span style="margin-right: 5px;">${icon}</span>
-                    <strong>${typeText}</strong> ${message}
+                <div style="color: #721c24; background-color: #f8d7da; border: 1px solid #f5c6cb; padding: 10px; border-radius: 4px; font-size: 14px; margin-top: 15px;">
+                    <strong>エラー:</strong> ${message}
                 </div>
             `;
         }
 
-
-        if (form && button && resultContainer) {
+        // --- 4. 非同期購入処理（メインロジック） ---
+        if (form && button) {
             form.addEventListener('submit', async (event) => {
-                event.preventDefault(); 
+                event.preventDefault(); // 通常のページ遷移をキャンセル
                 
-                if (!csrfToken) {
-                    showMessageBox('セキュリティトークンが見つかりません。ページをリロードしてください。', false);
-                    return;
-                }
-
+                // 二重送信防止のためにボタンを無効化
                 button.disabled = true;
                 button.textContent = '決済処理中...';
-                button.style.opacity = 0.7; 
-                button.style.cursor = 'wait';
-                resultContainer.innerHTML = ''; 
-
-                const postData = {
-                    item_id: itemId,
-                    payment_method: hiddenPaymentMethodInput.value, 
-                };
                 
                 const purchaseApiUrl = form.getAttribute('action'); 
                 
                 try {
+                    // Fetch APIを使用してサーバーにリクエストを送信
                     const response = await fetch(purchaseApiUrl, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
                             'X-CSRF-TOKEN': csrfToken, 
                         },
-                        body: JSON.stringify(postData) 
+                        body: JSON.stringify({
+                            item_id: {{ $item->id }},
+                            payment_method: hiddenPaymentMethodInput.value, 
+                        }) 
                     });
                     
+                    // リダイレクト指示があれば従う
                     if (response.redirected) {
                          window.location.href = response.url;
                          return; 
@@ -192,33 +170,21 @@
                     const result = await response.json(); 
                     
                     if (!response.ok) {
-                        const errorMsg = result.message || 'サーバーエラーが発生しました。';
-                        if (response.status === 422 && result.errors) {
-                             const validationErrors = Object.values(result.errors).flat().join(' ');
-                             throw new Error(`入力エラー: ${validationErrors}`);
-                        }
-                        throw new Error(errorMsg);
+                        throw new Error(result.message || 'エラーが発生しました。');
                     }
                     
                     if (result.success) {
+                        // 成功したら完了表示に切り替え
                         button.textContent = '購入完了済み';
                         button.classList.add('disabled');
-                        button.disabled = true;
-                        button.style.opacity = 1; 
-
-                        paymentMethodSelect.disabled = true;
-                        
-                    } else {
-                        throw new Error(result.message || '購入処理中に予期せぬエラーが発生しました。');
+                        alert('購入が完了しました！');
                     }
 
                 } catch (error) {
+                    // 失敗したらメッセージを表示してボタンを元に戻す
                     showMessageBox(error.message, false);
-
                     button.disabled = false;
                     button.textContent = '再度購入を試みる';
-                    button.style.opacity = 1; 
-                    button.style.cursor = 'pointer';
                 }
             });
         }

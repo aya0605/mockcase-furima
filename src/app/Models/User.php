@@ -64,6 +64,11 @@ class User extends Authenticatable
         return $this->hasMany(Order::class, 'buyer_id');
     }
 
+    public function purchases()
+    {
+        return $this->hasMany(Purchase::class, 'user_id'); 
+    }
+
      public function addresses()
     {
         return $this->hasMany(Address::class);
@@ -74,8 +79,14 @@ class User extends Authenticatable
         return $this->addresses()->where('is_default', true)->first();
     }
 
-    public function purchases()
+    public function messages()
     {
-        return $this->hasMany(Order::class, 'buyer_id'); 
+        return $this->hasMany(Message::class);
+    }
+
+    public function ratingsFrom()
+    {
+        // Ratingモデルの 'from_user_id' カラムに自分のIDが入る紐付け
+        return $this->hasMany(\App\Models\Rating::class, 'from_user_id');
     }
 }

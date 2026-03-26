@@ -24,11 +24,16 @@ class Purchase extends Model
 
     public function item()
     {
-        return $this->belongTo(Item::class);
+        return $this->belongsTo(Item::class);
     }
 
     public function shippingAddress()
     {
-        return $this->belongTo(Address::class);
+        return $this->belongsTo(Address::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }
