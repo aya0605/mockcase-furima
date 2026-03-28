@@ -15,6 +15,6 @@ class Condition extends Model
     public static $BAD_CONDITION = 4;
     
     protected $fillable = [
-        'condition', 
+        'name', 
     ];
 }

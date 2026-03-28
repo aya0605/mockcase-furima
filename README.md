@@ -96,8 +96,15 @@ erDiagram
         bigint seller_id FK
         bigint condition_id FK
         string name
+        string description
         integer price
-        boolean is_sold
+        string image_url
+        string brand
+    }
+
+    Conditions {
+        bigint id PK
+        string name
     }
 ```
 

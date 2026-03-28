@@ -23,7 +23,6 @@ class Item extends Model
         'condition_id',
         'seller_id',
         'brand',
-        'is_sold',
         'buyer_id',
     ];
 
