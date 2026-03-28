@@ -4,6 +4,10 @@
     <link rel="stylesheet" href="{{ asset('css/trade_chat.css') }}">
 @endsection
 
+@section('body-params')
+    data-show-rating-modal="{{ $show_rating_modal ? 'true' : 'false' }}"
+@endsection    
+
 @section('content')
 <div class="container">
     <div class="trade-wrapper">

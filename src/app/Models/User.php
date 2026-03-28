@@ -86,7 +86,22 @@ class User extends Authenticatable
 
     public function ratingsFrom()
     {
-        // Ratingモデルの 'from_user_id' カラムに自分のIDが入る紐付け
         return $this->hasMany(\App\Models\Rating::class, 'from_user_id');
+    }
+
+    public function ratingsTo()
+    {
+        return $this->hasMany(Rating::class, 'to_user_id');
+    }
+
+    public function getAverageRating()
+    {
+        $average = $this->ratingsTo()->avg('rating');
+
+        if (is_null($average)) {
+            return null;
+        }
+
+        return round($average);
     }
 }

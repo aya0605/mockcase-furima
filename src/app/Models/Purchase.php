@@ -16,10 +16,14 @@ class Purchase extends Model
         'shipping_address_id',
         'payment_method',
         'status',
+        'seller_last_read_at',
+        'buyer_last_read_at',
     ];
 
-    protected $dates = [
-        'purchased_at',
+    protected $casts = [
+        'purchased_at' => 'datetime',
+        'seller_last_read_at' => 'datetime',
+        'buyer_last_read_at' => 'datetime',
     ];
 
     public function item()

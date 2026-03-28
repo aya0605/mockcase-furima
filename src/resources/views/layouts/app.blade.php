@@ -7,13 +7,14 @@
     <title>COACHTECH furima</title>
     <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
     <link rel="stylesheet" href="{{ asset('css/common.css')}}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     @yield('css')
 </head>
 
-<body>
+<body @yield('body-params')>
     <div class="app">
         <header class="header">
             <div class="header__inner">
@@ -39,9 +40,7 @@
                     <nav>
                         <ul class="header-nav-list">
                             @if (Auth::check())
-                                {{-- ログイン済みの場合 --}}
                                 
-                                {{-- ログアウト --}}
                                 <li class="header-nav-item">
                                     <form class="form" action="/logout" method="post">
                                         @csrf
@@ -49,13 +48,10 @@
                                     </form>
                                 </li>
                                 
-                                {{-- マイページ --}}
                                 <li class="header-nav-item"><a href="/user/profile">マイページ</a></li>
                                 
-                                {{-- 出品 --}}
                                 <li class="header-nav-item"><a href="/sell" class="add-button">出品</a></li>
                             @else
-                                {{-- 未ログインの場合 --}}
                                 <li class="header-nav-item"><a href="/login">ログイン</a></li>
                             @endif
                         </ul>

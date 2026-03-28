@@ -10,7 +10,7 @@
     align-items: center;
     padding: 20px 0;
     margin-bottom: 30px;
-    border-bottom: 1px solid #eee;
+    border-bottom: none !important;
 }
 
 .user__info {
@@ -41,6 +41,28 @@
     font-weight: bold;
     color: #333;
     margin: 0;
+}
+
+.user__text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.user__rating {
+    display: flex;
+    gap: 4px; 
+    margin-top: 8px; 
+}
+
+.rating-star {
+    font-size: 30px; 
+    color: #e0e0e0; 
+    line-height: 1;
+}
+
+.rating-star.is-active {
+    color: #ffce00; 
 }
 
 .mypage__user--btn {
@@ -190,4 +212,52 @@
         flex: 0 0 100%;
         max-width: 100%;
     }
+}
+
+.notification-badge {
+    position: absolute;
+    top: -8px;
+    left: -8px;
+    background-color: #ff4d4b;
+    color: white;
+    font-size: 11px;
+    font-weight: bold;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.tab-badge {
+    display: inline-block;
+    background-color: #ff4d4b;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 6px;
+    font-size: 10px;
+    margin-left: 4px;
+    font-weight: bold;
+    vertical-align: middle;
+}
+
+.notification-badge {
+    position: absolute;
+    top: 5px;      
+    left: 5px;     
+    z-index: 100;  
+    background-color: #ff4d4b;
+    color: white;
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }

@@ -8,10 +8,9 @@
     <div class="purchase-container">
         <div class="purchase-layout">
             <div class="purchase-main-content">
-                {{-- 左側のメインコンテンツ：商品情報と設定 --}}
+                {{-- 左側 --}}
                 <div class="purchase-item-info">
                     @if ($item->image_url)
-                        {{-- Storage::url() を使い、アップロードされた画像を正しく表示 --}}
                         <img src="{{ \Storage::url($item->image_url) }}" alt="{{ $item->name }}" class="purchase-item-image">
                     @else
                         <img src="{{ asset('images/no_image.png') }}" alt="画像なし" class="purchase-item-image">
@@ -26,10 +25,6 @@
                 <div class="payment-method-info">
                     <h3>支払い方法</h3>
                     <div class="form-group">
-                        {{-- 
-                            セレクトボックス：売り切れや自分の商品の場合は操作不能(disabled)にする 
-                            ここでの変更を下のJavaScriptで検知して右側の表示に反映させる
-                        --}}
                         <select id="payment_method_select" class="form-control" {{ $item->sold() || $item->seller_id === Auth::id() ? 'disabled' : '' }}> 
                             <option value="convenience_store" selected>コンビニ払い</option>
                             <option value="credit_card">クレジットカード</option>
@@ -44,7 +39,6 @@
                     <h3>配送先</h3>
                     @auth
                         @if($shippingAddress)
-                            {{-- 登録されている住所を表示。未入力項目がある場合は警告を出す --}}
                             <p><strong>郵便番号:</strong> {{ $shippingAddress->postal_code ?? '未登録' }}</p>
                             <p><strong>住所:</strong> {{ $shippingAddress->address ?? '未登録' }}</p>
                             <p><strong>建物名:</strong> {{ $shippingAddress->building_name ?? '未登録' }}</p>
@@ -54,7 +48,6 @@
                         @else
                             <p>配送先が登録されていません。</p>
                         @endif
-                        {{-- 住所変更ページへのリンク。変更後はここに戻ってくる仕組みがController側にある --}}
                         <a href="/user/shipping-address/edit" class="edit-address-link">変更する</a> 
                     @else
                         <p>お届け先情報を表示するにはログインが必要です。</p>
@@ -64,7 +57,7 @@
             </div>
 
             <div class="purchase-sidebar">
-                {{-- 右側のサイドバー：最終確認と実行ボタン --}}
+                {{-- 右側 --}}
                 <div class="purchase-summary-box">
                     <div class="summary-row">
                         <span class="summary-label">商品代金</span>
@@ -73,20 +66,16 @@
 
                     <div class="summary-row payment-display-row">
                         <span class="summary-label">支払い方法</span>
-                        {{-- JSで動的に書き換えられる部分 --}}
                         <span class="summary-value" id="selected_payment_method">コンビニ払い</span>
                     </div>
                 </div>
                 
-                {{-- JSからのエラーメッセージ（「購入に失敗しました」等）を表示する場所 --}}
                 <div id="resultContainer" class="mt-4" style="margin-bottom: 20px;"></div>
 
                 <form id="purchaseConfirmationForm" action="/items/{{ $item->id }}/purchase" method="POST" class="purchase-form">
                     @csrf
-                    {{-- セレクトボックスの値を送信するために隠し入力(hidden)を使用 --}}
                     <input type="hidden" name="payment_method" id="hidden_payment_method" value="convenience_store">
                     
-                    {{-- ボタンの状態制御：売り切れや自分の商品の場合は押せないようにする --}}
                     @if ($item->sold())
                         <button type="button" class="confirm-purchase-button disabled" disabled>Sold</button>
                     @elseif ($item->seller_id === Auth::id())

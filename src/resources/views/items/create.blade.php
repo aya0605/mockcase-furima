@@ -7,15 +7,10 @@
 
 @section('content')
     <div class="sell-container">
-        {{-- 
-          enctype="multipart/form-data": 
-          重要！画像などのファイルを送信する場合、この属性が必須です。
-        --}}
         <form action="/sell" method="POST" enctype="multipart/form-data" class="sell-form">
             @csrf
             <h1>商品の出品</h1>
 
-            {{-- 商品画像アップロードエリア --}}
             <div>
                 <label for="image">商品画像</label>
                 <input type="file" id="image" name="image">
@@ -25,16 +20,10 @@
             </div>
 
             <h2>商品の詳細</h2>
-
-            {{-- カテゴリー選択（複数選択可能） --}}
             <div>
                 <label>カテゴリー</label>
                 <div class="category-options">
                     @foreach ($categories as $category)
-                        {{-- 
-                          name="categories[]": 
-                          名前を配列形式にすることで、複数のカテゴリIDを一度にサーバーへ送れます。
-                        --}}
                         <input type="checkbox" name="categories[]" value="{{ $category->id }}" id="category_{{ $category->id }}" class="category-hidden-checkbox"
                             {{-- 
                               エラーで戻った際、チェックしていた項目を復元するロジック
@@ -54,7 +43,6 @@
                 @enderror
             </div>
 
-            {{-- 商品の状態選択（プルダウン） --}}
             <div>
                 <label for="condition">商品の状態</label>
                 <select name="condition" id="condition">
@@ -70,8 +58,6 @@
             </div>
 
             <h2>商品名と説明</h2>
-
-            {{-- 商品名 --}}
             <div>
                 <label for="name">商品名</label>
                 {{-- old('name') で入力値を保持 --}}
@@ -81,7 +67,6 @@
                 @enderror
             </div>
 
-            {{-- ブランド名 --}}
             <div>
                 <label for="brand">ブランド名</label>
                 <input type="text" id="brand" name="brand" value="{{ old('brand') }}">
@@ -90,7 +75,6 @@
                 @enderror
             </div>
 
-            {{-- 商品の説明（textarea） --}}
             <div>
                 <label for="description">商品の説明</label>
                 {{-- textareaの場合、value属性ではなくタグの間に old() を書きます --}}
@@ -100,7 +84,6 @@
                 @enderror
             </div>
 
-            {{-- 販売価格 --}}
             <div>
                 <label for="product_price">販売価格</label>
                 <div class="price-container">

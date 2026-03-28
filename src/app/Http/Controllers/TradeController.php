@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\Item;
 use App\Models\Message;
 use App\Models\Rating;
+use App\Mail\TradeCompletedNotification;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use App\Http\Requests\TradeMessageRequest;
 
 
@@ -18,14 +20,22 @@ class TradeController extends Controller
 
         $user = Auth::user();
 
-        $other_items = Item::where('id', '!=', $item_id)
-        ->whereHas('purchase') // すでに誰かが購入している（取引が始まっている）
+        $other_items = Item::where('items.id', '!=', $item_id)
+        ->whereHas('purchase') 
         ->where(function($query) use ($user) {
-            $query->where('seller_id', $user->id) // 自分が「出品者」
+            $query->where('items.seller_id', $user->id) 
                   ->orWhereHas('purchase', function($q) use ($user) {
-                      $q->where('user_id', $user->id); // または自分が「購入者」
+                      $q->where('user_id', $user->id); 
                   });
         })
+
+        ->with(['latestMessage']) 
+        ->leftJoin('messages', function ($join) {
+            $join->on('items.id', '=', 'messages.item_id')
+                ->whereRaw('messages.id = (select max(id) from messages as m where m.item_id = items.id)');
+        })
+        ->select('items.*')
+        ->orderByRaw('COALESCE(messages.created_at, items.created_at) DESC') 
         ->get();
 
         $buyerId = $item->purchase ? $item->purchase->user_id : null; 
@@ -34,23 +44,37 @@ class TradeController extends Controller
         abort(403, 'アクセス権限がありません。');
     }
 
-        return view('trade.chat', compact('item', 'user', 'other_items'));
+       if ($item->purchase) {
+        $column = ((int)$user->id === (int)$item->seller_id) ? 'seller_last_read_at' : 'buyer_last_read_at';
+        $item->purchase->update([$column => now()]);
+    }
+
+        $show_rating_modal = session('open_rating_modal', false);
+
+        return view('trade.chat', compact('item', 'user', 'other_items', 'show_rating_modal'));
     }
 
     public function sendMessage(TradeMessageRequest $request, $item_id)
     {
+        $item = Item::with('purchase')->findOrFail($item_id);
+        $user = Auth::user();
+
         $imagePath = null;
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('public/trade_images');
         }
 
-        \App\Models\Message::create([
-            'item_id' => $item_id,
-            'user_id' => Auth::id(),
+        $item->messages()->create([
+            'user_id' => $user->id,
             'content' => $request->content,
             'image_path' => $imagePath,
         ]);
 
+        if ($item->purchase) {
+        $column = ((int)$user->id === (int)$item->seller_id) ? 'seller_last_read_at' : 'buyer_last_read_at';
+        $item->purchase->update([$column => now()]);
+    }
+    
         return redirect('/trade/chat/' . $item_id);
     }
 
@@ -99,6 +123,10 @@ class TradeController extends Controller
         
         if ($item->purchase) {
             $item->purchase->update(['status' => 'completed']);
+        }
+
+        if ($user->id !== $item->seller_id) {
+            Mail::to($item->seller->email)->send(new TradeCompletedNotification($item));
         }
 
         return redirect('/');

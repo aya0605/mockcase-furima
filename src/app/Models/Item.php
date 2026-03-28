@@ -59,6 +59,28 @@ class Item extends Model
 
     public function messages()
     {
-        return $this->hasMany(Message::class)->latest();
+        return $this->hasMany(Message::class);
+    }
+
+    public function latestMessage()
+    {
+        return $this->hasOne(Message::class)->latestOfMany();
+    }
+
+    public function getUnreadCount($userId)
+    {
+        $purchase = $this->purchase;
+        if (!$purchase) return 0;
+
+        $isSeller = ((int)$this->seller_id === (int)$userId);
+        $lastReadAt = $isSeller ? $purchase->seller_last_read_at : $purchase->buyer_last_read_at;
+
+        $query = $this->messages()->where('user_id', '!=', $userId);
+
+        if ($lastReadAt) {
+            $threshold = \Carbon\Carbon::parse($lastReadAt);
+            return $query->where('created_at', '>', $threshold)->count();
+        }
+        return $query->count();
     }
 }

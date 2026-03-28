@@ -20,9 +20,10 @@ class CreatePurchasesTable extends Migration
             $table->timestamp('purchased_at')->nullable();
             $table->foreignId('shipping_address_id')->nullable()->constrained('addresses')->onDelete('set null');
             $table->string('payment_method')->nullable();
-            $table->string('status')->default('completed'); 
+            $table->string('status')->default('completed');
+            $table->timestamp('seller_last_read_at')->nullable();
+            $table->timestamp('buyer_last_read_at')->nullable();
             $table->timestamps();
-
             $table->unique('item_id');
         });
     }

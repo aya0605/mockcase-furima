@@ -1,5 +1,3 @@
-/* public/js/trade_chat.js */
-
 /**
  * メッセージ編集フォームの表示切り替え
  */
@@ -20,14 +18,26 @@ function openRatingModal() {
         modal.style.display = "block";
     }
 }
-
-/**
- * モーダルの外側をクリックした時に閉じる
- */
-window.onclick = function (event) {
+function closeRatingModal() {
     const modal = document.getElementById("rating-modal");
-    if (event.target === modal) {
+    if (modal) {
         modal.style.display = "none";
     }
-};
+}
+    
+// ページ読み込み時の処理
+document.addEventListener("DOMContentLoaded", function () {
+    const modal = document.getElementById("rating-modal");
+
+    const shouldOpenModal = document.body.dataset.showRatingModal === "true";
+    if (shouldOpenModal) {
+        openRatingModal();
+    }
+
+    window.addEventListener("click", function (event) {
+        if (event.target === modal) {
+            closeRatingModal();
+        }
+    });
+});
 
