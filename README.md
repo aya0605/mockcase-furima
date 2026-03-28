@@ -65,77 +65,79 @@
 * MySQL8.0.26
 
 ### ER図
-erDiagram
-    Users ||--o{ Items : "出品(seller_id)"
-    Users ||--o{ Addresses : "所有"
-    Users ||--o{ Purchases : "購入(user_id)"
-    Users ||--o{ Messages : "送信(user_id)"
-    Users ||--o{ Ratings : "評価(from/to_user_id)"
-    Users ||--o{ Likes : "いいね"
-    Users ||--o{ Comments : "投稿"
+    ```mermaid
+    erDiagram
+        Users ||--o{ Items : "出品(seller_id)"
+        Users ||--o{ Addresses : "所有"
+        Users ||--o{ Purchases : "購入(user_id)"
+        Users ||--o{ Messages : "送信(user_id)"
+        Users ||--o{ Ratings : "評価(from/to_user_id)"
+        Users ||--o{ Likes : "いいね"
+        Users ||--o{ Comments : "投稿"
 
-    Items ||--o{ Item_Category : "中間"
-    Categories ||--o{ Item_Category : "中間"
-    Items ||--|| Purchases : "1つの取引"
-    Items ||--o{ Messages : "チャット履歴"
-    Items ||--o{ Likes : "被いいね"
-    Items ||--o{ Comments : "商品への質問"
-    
-    Conditions ||--o{ Items : "状態定義"
+        Items ||--o{ Item_Category : "中間"
+        Categories ||--o{ Item_Category : "中間"
+        Items ||--|| Purchases : "1つの取引"
+        Items ||--o{ Messages : "チャット履歴"
+        Items ||--o{ Likes : "被いいね"
+        Items ||--o{ Comments : "商品への質問"
+        
+        Conditions ||--o{ Items : "状態定義"
 
-    Users {
-        bigint id PK
-        string name
-        string email
-        string profile_image_path
-    }
+        Users {
+            bigint id PK
+            string name
+            string email
+            string profile_image_path
+        }
 
-    Items {
-        bigint id PK
-        bigint seller_id FK "Users.id"
-        bigint condition_id FK "Conditions.id"
-        string name
-        integer price
-        boolean is_sold
-    }
+        Items {
+            bigint id PK
+            bigint seller_id FK "Users.id"
+            bigint condition_id FK "Conditions.id"
+            string name
+            integer price
+            boolean is_sold
+        }
 
-    Purchases {
-        bigint id PK
-        bigint user_id FK "Users.id (購入者)"
-        bigint item_id FK "Items.id"
-        bigint shipping_address_id FK "Addresses.id"
-        timestamp seller_last_read_at "既読管理"
-        timestamp buyer_last_read_at "既読管理"
-    }
+        Purchases {
+            bigint id PK
+            bigint user_id FK "Users.id (購入者)"
+            bigint item_id FK "Items.id"
+            bigint shipping_address_id FK "Addresses.id"
+            timestamp seller_last_read_at "既読管理"
+            timestamp buyer_last_read_at "既読管理"
+        }
 
-    Messages {
-        bigint id PK
-        bigint item_id FK "Items.id"
-        bigint user_id FK "Users.id (送信者)"
-        text content
-        string image_url
-    }
+        Messages {
+            bigint id PK
+            bigint item_id FK "Items.id"
+            bigint user_id FK "Users.id (送信者)"
+            text content
+            string image_url
+        }
 
-    Ratings {
-        bigint id PK
-        bigint item_id FK "Items.id"
-        bigint from_user_id FK "Users.id"
-        bigint to_user_id FK "Users.id"
-        integer rating "1-5のスコア"
-    }
+        Ratings {
+            bigint id PK
+            bigint item_id FK "Items.id"
+            bigint from_user_id FK "Users.id"
+            bigint to_user_id FK "Users.id"
+            integer rating "1-5のスコア"
+        }
 
-    Addresses {
-        bigint id PK
-        bigint user_id FK "Users.id"
-        string postal_code
-        string address
-        boolean is_default
-    }
+        Addresses {
+            bigint id PK
+            bigint user_id FK "Users.id"
+            string postal_code
+            string address
+            boolean is_default
+        }
 
-    Conditions {
-        bigint id PK
-        string condition "新品/中古など"
-    }
+        Conditions {
+            bigint id PK
+            string condition "新品/中古など"
+        }
+        ```
 
 ## テストアカウント
 name: 一般ユーザ  
