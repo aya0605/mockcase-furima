@@ -125,6 +125,28 @@
 | created_at | timestamp | | | | |
 | updated_at | timestamp | | | | |
 
+### commentsテーブル
+| カラム名 | 型 | primary key | unique key | not null | foreign key |
+| --- | --- | :---: | :---: | :---: | --- |
+| id | bigint | ◯ | | ◯ | |
+| user_id | bigint | | | ◯ | users(id) |
+| item_id | bigint | | | ◯ | items(id) |
+| content | text | | | ◯ | |
+| rating | int | | | | |
+| created_at | timestamp | | | | |
+| updated_at | timestamp | | | | |
+
+### ratingsテーブル
+| カラム名 | 型 | primary key | unique key | not null | foreign key |
+| --- | --- | :---: | :---: | :---: | --- |
+| id | bigint | ◯ | | ◯ | |
+| item_id | bigint | | | ◯ | items(id) |
+| from_user_id | bigint | | | ◯ | users(id) |
+| to_user_id | bigint | | | ◯ | users(id) |
+| rating | int | | | ◯ | |
+| created_at | timestamp | | | | |
+| updated_at | timestamp | | | | |
+
 ### conditionsテーブル
 | カラム名 | 型 | primary key | unique key | not null | foreign key |
 | --- | --- | :---: | :---: | :---: | --- |

@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="cBGW-3oaAQrJ7q-zcV8s" name="ページ1">
-        <mxGraphModel dx="3182" dy="470" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="3128" dy="580" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -836,13 +836,6 @@
                         <Array as="points">
                             <mxPoint x="-1560" y="214"/>
                         </Array>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="401" value="" style="edgeStyle=none;orthogonalLoop=1;jettySize=auto;html=1;endArrow=ERzeroToMany;endFill=0;startArrow=ERzeroToMany;startFill=0;" edge="1" parent="1">
-                    <mxGeometry width="80" relative="1" as="geometry">
-                        <mxPoint x="-1970" y="650" as="sourcePoint"/>
-                        <mxPoint x="-1910" y="650" as="targetPoint"/>
-                        <Array as="points"/>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="424" value="Conditions" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;html=1;" vertex="1" parent="1">
