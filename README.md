@@ -87,24 +87,65 @@ erDiagram
     Users {
         bigint id PK
         string name
-        string email
         string profile_image_path
+        string email
+        string password
+        timestamp timestamps
+    }
+
+    Addresses {
+        bigint id PK
+        bigint user_id FK
+        string postal_code
+        string address
+        string building_name
+        boolean is_default
+        timestamp timestamps
     }
 
     Items {
         bigint id PK
         bigint seller_id FK
-        bigint condition_id FK
         string name
         string description
-        integer price
         string image_url
+        integer price
+        string condition
         string brand
+        timestamp timestamps
     }
 
     Conditions {
         bigint id PK
         string name
+        timestamp timestamp
+    }
+
+    Purchases {
+        bigint id PK
+        bigint user_id FK
+        bigint item_id FK
+        bigint shipping_address_id FK
+        timestamp seller_last_read_at
+        timestamp buyer_last_read_at
+        timestamp timestamps
+    }
+
+    Messages {
+        bigint id PK
+        bigint user_id FK
+        bigint item_id FK
+        text content
+        string image_url
+        timestamp timestamps
+    }
+
+    Comments {
+        bigint id PK
+        bigint users_id FK
+        bigint items_id FK
+        text content
+        timestamp time_stamp
     }
 ```
 
