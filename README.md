@@ -65,63 +65,72 @@
 * MySQL8.0.26
 
 ### ER図
-```mermaid
 erDiagram
-    Users ||--o{ Profiles : ""
+    Users ||--o{ Addresses : ""
     Users ||--o{ Items : ""
-    Users ||--o{ SoldItems : ""
+    Users ||--o{ Purchases : ""
+    Users ||--o{ Messages : ""
     Users ||--o{ Likes : ""
     Users ||--o{ Comments : ""
     
-    Items ||--o{ CategoryItems : ""
-    Categories ||--o{ CategoryItems : ""
-    Items ||--o{ SoldItems : ""
+    Items ||--o{ ItemCategory : ""
+    Categories ||--o{ ItemCategory : ""
+    Items ||--|| Purchases : ""
+    Items ||--o{ Messages : ""
     Items ||--o{ Likes : ""
     Items ||--o{ Comments : ""
-    Condition ||--o{ Items : ""
+    Conditions ||--o{ Items : ""
 
     Users {
-        id id
+        bigint id
         string name
         string email
     }
 
-    Profiles {
-        id id
-        string img_url
+    Addresses {
+        bigint id
         string address
     }
 
     Items {
-        id id
+        bigint id
         string name
         int price
+        string brand
     }
 
-    SoldItems {
-        id id
-        string sending_address
-    }
-
-    Categories {
-        id id
+    Conditions {
+        bigint id
         string name
     }
 
-    Condition {
-        id id
-        string condition
+    Purchases {
+        bigint id
+        timestamp created_at
     }
 
-    Likes {
-        id id
+    Messages {
+        bigint id
+        text content
     }
 
     Comments {
-        id id
-        string content
+        bigint id
+        text content
     }
-```
+
+    Categories {
+        bigint id
+        string name
+    }
+
+    ItemCategory {
+        bigint id
+    }
+
+    Likes {
+        bigint id
+    }
 
 ## テストアカウント
 name: 一般ユーザ  
