@@ -64,75 +64,67 @@
 * Laravel8.83.27
 * MySQL8.0.26
 
-### ER図
-```mermaid
-erDiagram
-    Users ||--o{ Addresses : ""
-    Users ||--o{ Items : ""
-    Users ||--o{ Purchases : ""
-    Users ||--o{ Messages : ""
-    Users ||--o{ Likes : ""
-    Users ||--o{ Comments : ""
-    
-    Items ||--o{ ItemCategory : ""
-    Categories ||--o{ ItemCategory : ""
-    Items ||--|| Purchases : ""
-    Items ||--o{ Messages : ""
-    Items ||--o{ Likes : ""
-    Items ||--o{ Comments : ""
-    Conditions ||--o{ Items : ""
+## ER図
+###usersテーブル
+カラム名,型,primary key,unique key,not null,foreign key
+id,bigint,◯,,◯,
+name,varchar(255),,,◯,
+email,varchar(255),,◯,◯,
+password,varchar(255),,,◯,
+profile_image_path,varchar(255),,,,
+created_at,timestamp,,,,
+updated_at,timestamp,,,,
 
-    Users {
-        bigint id
-        string name
-        string email
-    }
+###addressesテーブル
+カラム名,型,primary key,unique key,not null,foreign key
+id,bigint,◯,,◯,
+user_id,bigint,,,◯,users(id)
+postal_code,varchar(255),,,◯,
+address,varchar(255),,,◯,
+building_name,varchar(255),,,,
+is_default,boolean,,,◯,
+created_at,timestamp,,,,
+updated_at,timestamp,,,,
 
-    Addresses {
-        bigint id
-        string address
-    }
+###itemsテーブル
+カラム名,型,primary key,unique key,not null,foreign key
+id,bigint,◯,,◯,
+seller_id,bigint,,,◯,users(id)
+condition_id,bigint,,,◯,conditions(id)
+name,varchar(255),,,◯,
+price,int,,,◯,
+brand,varchar(255),,,,
+description,text,,,◯,
+image_url,varchar(255),,,◯,
+created_at,timestamp,,,,
+updated_at,timestamp,,,,
 
-    Items {
-        bigint id
-        string name
-        int price
-        string brand
-    }
+###purchasesテーブル
+カラム名,型,primary key,unique key,not null,foreign key
+id,bigint,◯,,◯,
+user_id,bigint,,,◯,users(id)
+item_id,bigint,,,◯,items(id)
+shipping_address_id,bigint,,,◯,addresses(id)
+seller_last_read_at,timestamp,,,,
+buyer_last_read_at,timestamp,,,,
+created_at,timestamp,,,,
+updated_at,timestamp,,,,
 
-    Conditions {
-        bigint id
-        string name
-    }
+###messagesテーブル
+カラム名,型,primary key,unique key,not null,foreign key
+id,bigint,◯,,◯,
+user_id,bigint,,,◯,users(id)
+item_id,bigint,,,◯,items(id)
+content,text,,,◯,
+created_at,timestamp,,,,
+updated_at,timestamp,,,,
 
-    Purchases {
-        bigint id
-        timestamp created_at
-    }
-
-    Messages {
-        bigint id
-        text content
-    }
-
-    Comments {
-        bigint id
-        text content
-    }
-
-    Categories {
-        bigint id
-        string name
-    }
-
-    ItemCategory {
-        bigint id
-    }
-
-    Likes {
-        bigint id
-    }
-```
+###conditionsテーブル
+カラム名,型,primary key,unique key,not null,foreign key
+id,bigint,◯,,◯,
+name,varchar(255),,,◯,
+created_at,timestamp,,,,
+updated_at,timestamp,,,,
 
 ## テストアカウント
 name: 一般ユーザ  
