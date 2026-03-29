@@ -65,6 +65,7 @@
 * MySQL8.0.26
 
 ### ER図
+```mermaid
 erDiagram
     Users ||--o{ Addresses : ""
     Users ||--o{ Items : ""
@@ -131,6 +132,7 @@ erDiagram
     Likes {
         bigint id
     }
+```
 
 ## テストアカウント
 name: 一般ユーザ  
