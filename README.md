@@ -67,72 +67,59 @@
 ### ER図
 ```mermaid
 erDiagram
-    users ||--o{ profiles : ""
-    users ||--o{ items : ""
-    users ||--o{ sold_items : ""
-    users ||--o{ likes : ""
-    users ||--o{ comments : ""
+    Users ||--o{ Profiles : ""
+    Users ||--o{ Items : ""
+    Users ||--o{ SoldItems : ""
+    Users ||--o{ Likes : ""
+    Users ||--o{ Comments : ""
     
-    items ||--o{ category_items : ""
-    categories ||--o{ category_items : ""
-    items ||--o{ sold_items : ""
-    items ||--o{ likes : ""
-    items ||--o{ comments : ""
-    condition ||--o{ items : ""
+    Items ||--o{ CategoryItems : ""
+    Categories ||--o{ CategoryItems : ""
+    Items ||--o{ SoldItems : ""
+    Items ||--o{ Likes : ""
+    Items ||--o{ Comments : ""
+    Condition ||--o{ Items : ""
 
-    users {
-        id
-        name
-        email
-        password
+    Users {
+        id id
+        string name
+        string email
     }
 
-    profiles {
-        id
-        user_id
-        img_url
-        postcode
-        address
+    Profiles {
+        id id
+        string img_url
+        string address
     }
 
-    items {
-        id
-        user_id
-        condition_id
-        name
-        price
-        description
+    Items {
+        id id
+        string name
+        int price
     }
 
-    sold_items {
-        id
-        user_id
-        item_id
-        sending_postcode
-        sending_address
+    SoldItems {
+        id id
+        string sending_address
     }
 
-    categories {
-        id
-        category
+    Categories {
+        id id
+        string name
     }
 
-    condition {
-        id
-        condition
+    Condition {
+        id id
+        string condition
     }
 
-    likes {
-        id
-        user_id
-        item_id
+    Likes {
+        id id
     }
 
-    comments {
-        id
-        user_id
-        item_id
-        comment
+    Comments {
+        id id
+        string content
     }
 ```
 
