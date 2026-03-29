@@ -71,9 +71,9 @@
 | --- | --- | :---: | :---: | :---: | --- |
 | id | bigint | ◯ | | ◯ | |
 | name | varchar(255) | | | ◯ | |
+| profile_image_path | varchar(255) | | | | |
 | email | varchar(255) | | ◯ | ◯ | |
 | password | varchar(255) | | | ◯ | |
-| profile_image_path | varchar(255) | | | | |
 | created_at | timestamp | | | | |
 | updated_at | timestamp | | | | |
 
@@ -82,7 +82,7 @@
 | --- | --- | :---: | :---: | :---: | --- |
 | id | bigint | ◯ | | ◯ | |
 | user_id | bigint | | | ◯ | users(id) |
-| postal_code | varchar(255) | | | ◯ | |
+| postal_code | varchar(8) | | | ◯ | |
 | address | varchar(255) | | | ◯ | |
 | building_name | varchar(255) | | | | |
 | is_default | boolean | | | ◯ | |
@@ -99,7 +99,7 @@
 | price | int | | | ◯ | |
 | brand | varchar(255) | | | | |
 | description | text | | | ◯ | |
-| image_url | varchar(255) | | | ◯ | |
+| image_url | varchar(2048) | | | | |
 | created_at | timestamp | | | | |
 | updated_at | timestamp | | | | |
 
@@ -108,8 +108,8 @@
 | --- | --- | :---: | :---: | :---: | --- |
 | id | bigint | ◯ | | ◯ | |
 | user_id | bigint | | | ◯ | users(id) |
-| item_id | bigint | | | ◯ | items(id) |
-| shipping_address_id | bigint | | | ◯ | addresses(id) |
+| item_id | bigint | | ◯ | ◯ | items(id) |
+| shipping_address_id | bigint | | | | addresses(id) |
 | seller_last_read_at | timestamp | | | | |
 | buyer_last_read_at | timestamp | | | | |
 | created_at | timestamp | | | | |
