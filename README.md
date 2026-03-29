@@ -67,85 +67,72 @@
 ### ER図
 ```mermaid
 erDiagram
-    Users ||--o{ Items : "出品(seller_id)"
-    Users ||--o{ Addresses : "所有"
-    Users ||--o{ Purchases : "購入(user_id)"
-    Users ||--o{ Messages : "送信(user_id)"
-    Users ||--o{ Ratings : "評価(from/to_user_id)"
-    Users ||--o{ Likes : "いいね"
-    Users ||--o{ Comments : "投稿"
-
-    Items ||--o{ Item_Category : "中間"
-    Categories ||--o{ Item_Category : "中間"
-    Items ||--|| Purchases : "1つの取引"
-    Items ||--o{ Messages : "チャット履歴"
-    Items ||--o{ Likes : "被いいね"
-    Items ||--o{ Comments : "商品への質問"
+    users ||--o{ profiles : ""
+    users ||--o{ items : ""
+    users ||--o{ sold_items : ""
+    users ||--o{ likes : ""
+    users ||--o{ comments : ""
     
-    Conditions ||--o{ Items : "状態定義"
+    items ||--o{ category_items : ""
+    categories ||--o{ category_items : ""
+    items ||--o{ sold_items : ""
+    items ||--o{ likes : ""
+    items ||--o{ comments : ""
+    condition ||--o{ items : ""
 
-    Users {
-        bigint id PK
-        string name
-        string profile_image_path
-        string email
-        string password
-        timestamp timestamps
+    users {
+        id
+        name
+        email
+        password
     }
 
-    Addresses {
-        bigint id PK
-        bigint user_id FK
-        string postal_code
-        string address
-        string building_name
-        boolean is_default
-        timestamp timestamps
+    profiles {
+        id
+        user_id
+        img_url
+        postcode
+        address
     }
 
-    Items {
-        bigint id PK
-        bigint seller_id FK
-        string name
-        string description
-        string image_url
-        integer price
-        string condition
-        string brand
-        timestamp timestamps
+    items {
+        id
+        user_id
+        condition_id
+        name
+        price
+        description
     }
 
-    Conditions {
-        bigint id PK
-        string name
-        timestamp timestamp
+    sold_items {
+        id
+        user_id
+        item_id
+        sending_postcode
+        sending_address
     }
 
-    Purchases {
-        bigint id PK
-        bigint user_id FK
-        bigint item_id FK
-        bigint shipping_address_id FK
-        timestamp seller_last_read_at
-        timestamp buyer_last_read_at
-        timestamp timestamps
+    categories {
+        id
+        category
     }
 
-    Messages {
-        bigint id PK
-        bigint user_id FK
-        bigint item_id FK
-        text content
-        string image_url
-        timestamp timestamps
+    condition {
+        id
+        condition
     }
 
-    Comments {
-        bigint id PK
-        bigint users_id FK
-        bigint items_id FK
-        text content
-        timestamp time_stamp
+    likes {
+        id
+        user_id
+        item_id
+    }
+
+    comments {
+        id
+        user_id
+        item_id
+        comment
     }
 ```
 
