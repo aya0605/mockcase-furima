@@ -64,7 +64,7 @@
 * Laravel8.83.27
 * MySQL8.0.26
 
-## ER図
+### テーブル仕様
 
 ### usersテーブル
 | カラム名 | 型 | primary key | unique key | not null | foreign key |
@@ -132,6 +132,9 @@
 | name | varchar(255) | | | ◯ | |
 | created_at | timestamp | | | | |
 | updated_at | timestamp | | | | |
+
+### ER図
+![ER図](./test.png)
 
 ## テストアカウント
 name: 一般ユーザ  
